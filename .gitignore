@@ -1,0 +1,14 @@
+Kotti.db
+kotti_calendar.egg-info/
+bin/
+develop-eggs/
+dist/
+eggs/
+include/
+lib/
+*.pyc
+*.pt.py
+.coverage
+.installed.cfg
+coverage-*
+nose-*
