@@ -19,14 +19,14 @@ def edit_calendar(context, request):
     return generic_edit(context, request, NodeSchema())
 
 def add_calendar(context, request):
-    return generic_add(context, request, NodeSchema(), Calendar)
+    return generic_add(context, request, NodeSchema(), Calendar, u'calendar')
 
 @ensure_view_selector
 def edit_event(context, request):
     return generic_edit(context, request, EventSchema())
 
 def add_event(context, request):
-    return generic_add(context, request, EventSchema(), Event)
+    return generic_add(context, request, EventSchema(), Event, u'event')
 
 def includeme_edit(config):
     config.add_view(
