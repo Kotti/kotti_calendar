@@ -1,4 +1,6 @@
 import datetime
+from pyramid.compat import json
+from pyramid.url import resource_url
 
 import colander
 from sqlalchemy import desc
@@ -13,6 +15,20 @@ from kotti.views.util import TemplateAPI
 from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
 
+class Feeds(colander.SequenceSchema):
+    feed = colander.SchemaNode(
+        colander.String(),
+        missing=None,
+        )
+
+class CalendarSchema(NodeSchema):
+    feeds = Feeds(
+        missing=[],
+        title=u"Calendar feeds",
+        description=u"Paste Google calendar XML feeds here",
+        )
+    weekends = colander.SchemaNode(colander.Boolean())
+
 class EventSchema(NodeSchema):
     start = colander.SchemaNode(
         colander.DateTime(default_tzinfo=None))
@@ -22,10 +38,10 @@ class EventSchema(NodeSchema):
 
 @ensure_view_selector
 def edit_calendar(context, request):
-    return generic_edit(context, request, NodeSchema())
+    return generic_edit(context, request, CalendarSchema())
 
 def add_calendar(context, request):
-    return generic_add(context, request, NodeSchema(), Calendar, u'calendar')
+    return generic_add(context, request, CalendarSchema(), Calendar, u'calendar')
 
 @ensure_view_selector
 def edit_event(context, request):
@@ -38,12 +54,33 @@ def view_calendar(context, request):
     session = DBSession()
     now = datetime.datetime.now()
     query = session.query(Event).filter(Event.parent_id==context.id)
-    upcoming = query.filter(Event.start > now).order_by(Event.start)
-    past = query.filter(Event.start < now).order_by(desc(Event.start))
+    upcoming = query.filter(Event.start > now).order_by(Event.start).all()
+    past = query.filter(Event.start < now).order_by(desc(Event.start)).all()
+
+    fmt = '%Y-%m-%d %H:%M:%S'
+    fullcalendar_events = []
+    for event in (upcoming + past):
+        json_event = {
+            'title': event.title,
+            'url': resource_url(event, request),
+            'start': event.start.strftime(fmt),
+            'allDay': event.all_day,
+            }
+        if event.end:
+            json_event['end'] = event.end.strftime(fmt)
+        fullcalendar_events.append(json_event)
+
+    fullcalendar_options = {
+        'eventSources': context.feeds,
+        'weekends': context.weekends,
+        'events': fullcalendar_events,
+        }
+
     return {
         'api': TemplateAPI(context, request),
         'upcoming_events': upcoming,
         'past_events': past,
+        'fullcalendar_options': json.dumps(fullcalendar_options),
         }
 
 def includeme_edit(config):
@@ -94,7 +131,8 @@ def includeme_view(config):
         renderer='templates/event-view.pt',
         )
 
+    config.add_static_view('static-kotti_calendar', 'kotti_calendar:static')
+
 def includeme(config):
     includeme_edit(config)
     includeme_view(config)
-

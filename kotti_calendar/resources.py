@@ -5,9 +5,9 @@ from sqlalchemy import Integer
 from sqlalchemy import Boolean
 from sqlalchemy import DateTime
 from sqlalchemy.orm import mapper
-
 from kotti import metadata
 from kotti.resources import Node
+from kotti.util import JsonType
 
 class Calendar(Node):
     type_info = Node.type_info.copy(
@@ -15,6 +15,11 @@ class Calendar(Node):
         add_view=u'add_calendar',
         addable_to=[u'Document'],
         )
+
+    def __init__(self, feeds=(), weekends=True, **kwargs):
+        super(Calendar, self).__init__(**kwargs)
+        self.feeds = feeds
+        self.weekends = weekends
 
 class Event(Node):
     type_info = Node.type_info.copy(
@@ -33,6 +38,8 @@ class Event(Node):
 
 calendars = Table('calendars', metadata,
     Column('id', Integer, ForeignKey('nodes.id'), primary_key=True),
+    Column('feeds', JsonType(), nullable=False),
+    Column('weekends', Boolean()),
 )
 
 events = Table('events', metadata,

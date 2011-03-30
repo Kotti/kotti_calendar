@@ -10,12 +10,12 @@
       ${api.context.description}
     </p>
 
-    <dl>
+    <dl tal:define="format api.context.all_day and '%Y-%m-%d' or '%Y-%m-%d %H:%M'">
       <dt>Start</dt>
-      <dd>${api.context.start.isoformat()}</dd>
+      <dd>${api.context.start.strftime(format)}</dd>
 
       <dt tal:condition="api.context.end">End</dt>
-      <dd tal:condition="api.context.end">${api.context.end.isoformat()}</dd>
+      <dd tal:condition="api.context.end">${api.context.end.strftime(format)}</dd>
 
       <dt>All Day</dt>
       <dd tal:condition="api.context.all_day">Yes</dd>

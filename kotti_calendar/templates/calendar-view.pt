@@ -4,35 +4,61 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       metal:use-macro="api['master_view.main']">
 
+  <header tal:omit-tag="" metal:fill-slot="head">
+    <link rel="stylesheet" href="${request.static_url('kotti_calendar:static/fullcalendar/fullcalendar.css')}" type="text/css" />
+    <script type="text/javascript" src="${request.static_url('kotti_calendar:static/fullcalendar/fullcalendar.min.js')}"></script>    
+    <script type="text/javascript" src="${request.static_url('kotti_calendar:static/fullcalendar/gcal.js')}"></script>    
+    <more tal:omit-tag="" metal:define-slot="head"></more>
+  </header>
+
   <article metal:fill-slot="content" class="calendar-view content">
     <h1>${api.context.title}</h1>
     <p class="description">
       ${api.context.description}
     </p>
 
-    <h2>Upcoming events</h2>
-    <ol>
+    <div id="fullcalendar">
+    </div>
+
+    <h2 tal:condition="upcoming_events">Upcoming events</h2>
+    <ul tal:condition="upcoming_events">
       <li tal:repeat="event upcoming_events">
         <h3>
           <a href="${api.url(event)}" title="${event.description}">
             ${event.title}
           </a>
+          <span tal:define="format event.all_day and '%Y-%m-%d' or '%Y-%m-%d %H:%M'">
+            ${event.start.strftime(format)}
+            <span tal:condition="event.end">-
+            ${event.end.strftime(format)}
+            </span>
+          </span>
         </h3>
         <p>${event.description}</p>
       </li>
-    </ol>
+    </ul>
 
-    <h2>Past events</h2>
-    <ol>
+    <h2 tal:condition="past_events">Past events</h2>
+    <ul tal:condition="past_events">
       <li tal:repeat="event past_events">
         <h3>
           <a href="${api.url(event)}" title="${event.description}">
             ${event.title}
           </a>
+          <span tal:define="format event.all_day and '%Y-%m-%d' or '%Y-%m-%d %H:%M'">
+            ${event.start.strftime(format)}
+            <span tal:condition="event.end">-
+            ${event.end.strftime(format)}
+            </span>
+          </span>
         </h3>
         <p>${event.description}</p>
       </li>
-    </ol>
+    </ul>
+
+    <script type="text/javascript">
+      $('#fullcalendar').fullCalendar(${fullcalendar_options});
+    </script>
 
   </article>
 
