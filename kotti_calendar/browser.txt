@@ -42,8 +42,8 @@ Add events
 
   >>> ctrl("Title").value = "Meet with Frank"
   >>> ctrl("Description").value = "Discuss the latest"
-  >>> ctrl("Start").value = "2011-12-13 12:00:00"
-  >>> ctrl("End").value = "2011-12-13 13:00:00"
+  >>> ctrl("Start").value = "2010-12-13 12:00:00"
+  >>> ctrl("End").value = "2010-12-13 13:00:00"
   >>> ctrl("save").click()
   >>> "Successfully added item" in browser.contents
   True
@@ -54,12 +54,19 @@ Add events
   >>> ctrl('Continue').click()
 
   >>> ctrl("Title").value = "Day off"
-  >>> ctrl("Start").value = "2011-12-13 00:00:00"
+  >>> ctrl("Start").value = "2010-11-12 00:00:00"
   >>> ctrl("All Day").click()
   >>> ctrl("save").click()
   >>> "Successfully added item" in browser.contents
   True
 
-View calendar
--------------
+View calendar and event
+-----------------------
 
+  >>> browser.open(tests.BASE_URL + '/my-calendar/')
+  >>> pos = browser.contents.index
+  >>> pos("Meet with Frank") < pos("Day off") 
+  True
+  >>> browser.getLink("Day off").click()
+  >>> "2010-11-12" in browser.contents
+  True

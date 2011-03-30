@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="api['master_view.main']">
+
+  <article metal:fill-slot="content" class="event-view content">
+    <h1>${api.context.title}</h1>
+    <p class="description">
+      ${api.context.description}
+    </p>
+
+    <dl>
+      <dt>Start</dt>
+      <dd>${api.context.start.isoformat()}</dd>
+
+      <dt tal:condition="api.context.end">End</dt>
+      <dd tal:condition="api.context.end">${api.context.end.isoformat()}</dd>
+
+      <dt>All Day</dt>
+      <dd tal:condition="api.context.all_day">Yes</dd>
+      <dd tal:condition="not api.context.all_day">No</dd>
+    </dl>
+
+  </article>
+
+</html>

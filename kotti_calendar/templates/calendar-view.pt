@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:use-macro="api['master_view.main']">
+
+  <article metal:fill-slot="content" class="calendar-view content">
+    <h1>${api.context.title}</h1>
+    <p class="description">
+      ${api.context.description}
+    </p>
+
+    <h2>Upcoming events</h2>
+    <ol>
+      <li tal:repeat="event upcoming_events">
+        <h3>
+          <a href="${api.url(event)}" title="${event.description}">
+            ${event.title}
+          </a>
+        </h3>
+        <p>${event.description}</p>
+      </li>
+    </ol>
+
+    <h2>Past events</h2>
+    <ol>
+      <li tal:repeat="event past_events">
+        <h3>
+          <a href="${api.url(event)}" title="${event.description}">
+            ${event.title}
+          </a>
+        </h3>
+        <p>${event.description}</p>
+      </li>
+    </ol>
+
+  </article>
+
+</html>
