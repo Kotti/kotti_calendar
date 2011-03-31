@@ -7,6 +7,9 @@ with events to your Kotti site.
 
 It uses the `FullCalendar jQuery plugin`_ to display calendars.
 
+Events can be either pulled from Google calendar XML feeds or added in
+Kotti itself.
+
 `Find out more about Kotti`_
 
 
