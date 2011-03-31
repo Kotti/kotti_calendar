@@ -67,10 +67,10 @@ View calendar and event
   >>> pos = browser.contents.index
   >>> pos("Meet with Frank") < pos("Day off") 
   True
-  >>> "2010-12-13 13:00" in browser.contents
+  >>> "Dec 13, 2010 1:00:00 PM" in browser.contents
   True
-  >>> "2010-11-12" in browser.contents
+  >>> "Nov 12, 2010" in browser.contents
   True
   >>> browser.getLink("Day off").click()
-  >>> "2010-11-12" in browser.contents
+  >>> "Nov 12, 2010" in browser.contents
   True

@@ -12,6 +12,7 @@
   </head>
 
   <article metal:fill-slot="content" class="calendar-view content">
+
     <h1>${api.context.title}</h1>
     <p class="description">
       ${api.context.description}
@@ -27,10 +28,10 @@
           <a href="${api.url(event)}" title="${event.description}">
             ${event.title}
           </a>
-          <span tal:define="format event.all_day and '%Y-%m-%d' or '%Y-%m-%d %H:%M'">
-            ${event.start.strftime(format)}
+          <span tal:define="format event.all_day and api.format_date or api.format_datetime">
+            ${format(event.start)}
             <span tal:condition="event.end">-
-            ${event.end.strftime(format)}
+            ${format(event.end)}
             </span>
           </span>
         </h3>
@@ -45,10 +46,10 @@
           <a href="${api.url(event)}" title="${event.description}">
             ${event.title}
           </a>
-          <span tal:define="format event.all_day and '%Y-%m-%d' or '%Y-%m-%d %H:%M'">
-            ${event.start.strftime(format)}
+          <span tal:define="format event.all_day and api.format_date or api.format_datetime">
+            ${format(event.start)}
             <span tal:condition="event.end">-
-            ${event.end.strftime(format)}
+            ${format(event.end)}
             </span>
           </span>
         </h3>
