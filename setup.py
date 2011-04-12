@@ -6,7 +6,7 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 setup(name='kotti_calendar',
-      version='0.1',
+      version='0.2',
       description="Add a calendar to your Kotti site",
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
