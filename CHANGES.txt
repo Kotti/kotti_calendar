@@ -1,7 +1,7 @@
 History
 =======
 
-0.1 - unreleased
+0.1 - 2011-04-12
 ----------------
 
 - Initial release
