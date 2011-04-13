@@ -12,6 +12,18 @@ Kotti itself.
 
 `Find out more about Kotti`_
 
+Setup
+=====
+
+To activate the kotti_calendar add-on in your Kotti site, you need to
+add an entry to the ``kotti.configurators`` setting in your Paste
+Deploy config.  If you don't have a ``kotti.configurators`` option,
+add one.  It should look like this::
+
+  kotti.configurators = kotti_calendar.kotti_configure
+
+With this, you'll be able to add calendar and event items in your site.
+
 
 .. _FullCalendar jQuery plugin: http://arshaw.com/fullcalendar/
 .. _Find out more about Kotti: http://pypi.python.org/pypi/Kotti
