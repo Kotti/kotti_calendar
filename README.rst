@@ -18,7 +18,8 @@ Setup
 To activate the kotti_calendar add-on in your Kotti site, you need to
 add an entry to the ``kotti.configurators`` setting in your Paste
 Deploy config.  If you don't have a ``kotti.configurators`` option,
-add one.  It should look like this::
+add one.  The line in your ``[app:Kotti]`` section could then look
+like this::
 
   kotti.configurators = kotti_calendar.kotti_configure
 
