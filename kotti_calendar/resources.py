@@ -6,11 +6,11 @@ from sqlalchemy import Boolean
 from sqlalchemy import DateTime
 from sqlalchemy.orm import mapper
 from kotti import metadata
-from kotti.resources import Node
+from kotti.resources import Content
 from kotti.util import JsonType
 
-class Calendar(Node):
-    type_info = Node.type_info.copy(
+class Calendar(Content):
+    type_info = Content.type_info.copy(
         name=u'Calendar',
         add_view=u'add_calendar',
         addable_to=[u'Document'],
@@ -21,8 +21,8 @@ class Calendar(Node):
         self.feeds = feeds
         self.weekends = weekends
 
-class Event(Node):
-    type_info = Node.type_info.copy(
+class Event(Content):
+    type_info = Content.type_info.copy(
         name=u'Event',
         add_view=u'add_event',
         addable_to=[u'Calendar'],
@@ -37,17 +37,17 @@ class Event(Node):
 
 
 calendars = Table('calendars', metadata,
-    Column('id', Integer, ForeignKey('nodes.id'), primary_key=True),
+    Column('id', Integer, ForeignKey('contents.id'), primary_key=True),
     Column('feeds', JsonType(), nullable=False),
     Column('weekends', Boolean()),
 )
 
 events = Table('events', metadata,
-    Column('id', Integer, ForeignKey('nodes.id'), primary_key=True),
+    Column('id', Integer, ForeignKey('contents.id'), primary_key=True),
     Column('start', DateTime(), nullable=False),
     Column('end', DateTime()),
     Column('all_day', Boolean()),
 )
 
-mapper(Calendar, calendars, inherits=Node, polymorphic_identity='calendar')
-mapper(Event, events, inherits=Node, polymorphic_identity='event')
+mapper(Calendar, calendars, inherits=Content, polymorphic_identity='calendar')
+mapper(Event, events, inherits=Content, polymorphic_identity='event')

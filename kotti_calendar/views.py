@@ -5,12 +5,12 @@ from pyramid.url import resource_url
 import colander
 from sqlalchemy import desc
 from kotti import DBSession
-from kotti.views.edit import NodeSchema
+from kotti.views.edit import ContentSchema
 from kotti.views.edit import generic_edit
 from kotti.views.edit import generic_add
 from kotti.views.view import view_node
 from kotti.views.util import ensure_view_selector
-from kotti.views.util import TemplateAPI
+from kotti.views.util import template_api
 
 from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
@@ -21,7 +21,7 @@ class Feeds(colander.SequenceSchema):
         missing=None,
         )
 
-class CalendarSchema(NodeSchema):
+class CalendarSchema(ContentSchema):
     feeds = Feeds(
         missing=[],
         title=u"Calendar feeds",
@@ -29,7 +29,7 @@ class CalendarSchema(NodeSchema):
         )
     weekends = colander.SchemaNode(colander.Boolean())
 
-class EventSchema(NodeSchema):
+class EventSchema(ContentSchema):
     start = colander.SchemaNode(
         colander.DateTime(default_tzinfo=None))
     end = colander.SchemaNode(
@@ -77,7 +77,7 @@ def view_calendar(context, request):
         }
 
     return {
-        'api': TemplateAPI(context, request),
+        'api': template_api(context, request),
         'upcoming_events': upcoming,
         'past_events': past,
         'fullcalendar_options': json.dumps(fullcalendar_options),
