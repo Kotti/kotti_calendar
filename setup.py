@@ -25,6 +25,6 @@ setup(name='kotti_calendar',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      install_requires=['Kotti'],
+      install_requires=['Kotti>=0.2'],
       tests_require=['nose', 'coverage'],
       )
