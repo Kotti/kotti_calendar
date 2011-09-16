@@ -6,7 +6,7 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 setup(name='kotti_calendar',
-      version='0.2',
+      version='0.3',
       description="Add a calendar to your Kotti site",
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -19,7 +19,7 @@ setup(name='kotti_calendar',
         ],
       author='Daniel Nouri',
       author_email='daniel.nouri@gmail.com',
-      url='http://pypi.python.org/pypi/kotti_twitter',
+      url='http://pypi.python.org/pypi/kotti_calendar',
       keywords='calendar fullcalendar kotti cms pylons pyramid',
       license="BSD-derived (http://www.repoze.org/LICENSE.txt)",
       packages=find_packages(),
