@@ -2,8 +2,16 @@ import os
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, 'README.rst')).read()
-CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
+try:
+    README = open(os.path.join(here, 'README.rst')).read()
+    CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
+except IOError:
+    README = CHANGES = ''
+
+tests_require = [
+    'pytest-cov',
+    'pytest',
+    ]
 
 setup(name='kotti_calendar',
       version='0.3',
@@ -25,6 +33,5 @@ setup(name='kotti_calendar',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      install_requires=['Kotti>=0.2'],
-      tests_require=['nose', 'coverage'],
+      install_requires=['Kotti>=0.2.4'] + tests_require,
       )
