@@ -33,5 +33,5 @@ setup(name='kotti_calendar',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      install_requires=['Kotti>=0.2.4'] + tests_require,
+      install_requires=['Kotti>=0.4.0'] + tests_require,
       )
