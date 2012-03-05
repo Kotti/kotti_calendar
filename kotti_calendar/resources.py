@@ -12,6 +12,7 @@ from kotti.util import JsonType
 class Calendar(Content):
     type_info = Content.type_info.copy(
         name=u'Calendar',
+        title=u'Calendar',
         add_view=u'add_calendar',
         addable_to=[u'Document'],
         )
@@ -24,6 +25,7 @@ class Calendar(Content):
 class Event(Content):
     type_info = Content.type_info.copy(
         name=u'Event',
+        title=u'Event',
         add_view=u'add_event',
         addable_to=[u'Calendar'],
         )

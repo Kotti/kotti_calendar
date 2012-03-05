@@ -23,8 +23,7 @@ Add a calendar
 --------------
 
   >>> browser.getLink("Add").click()
-  >>> ctrl('Calendar').click()
-  >>> ctrl('Continue').click()
+  >>> browser.getLink("Calendar").click()
   >>> ctrl("Title").value = "My Calendar"
   >>> ctrl("save").click()
   >>> "Successfully added item" in browser.contents
@@ -35,10 +34,9 @@ Add a calendar
 Add events
 ----------
 
+  >>> browser.open(tests.BASE_URL + '/my-calendar/')
   >>> browser.getLink("Add").click()
-  >>> ctrl('Event').click()
-  >>> ctrl('My Calendar').click()
-  >>> ctrl('Continue').click()
+  >>> browser.getLink("Event").click()
 
   >>> ctrl("Title").value = "Meet with Frank"
   >>> ctrl("Description").value = "Discuss the latest"
@@ -48,10 +46,9 @@ Add events
   >>> "Successfully added item" in browser.contents
   True
 
+  >>> browser.open(tests.BASE_URL + '/my-calendar/')
   >>> browser.getLink("Add").click()
-  >>> ctrl('Event').click()
-  >>> ctrl('My Calendar').click()
-  >>> ctrl('Continue').click()
+  >>> browser.getLink("Event").click()
 
   >>> ctrl("Title").value = "Day off"
   >>> ctrl("Start").value = "2010-11-12 00:00:00"
