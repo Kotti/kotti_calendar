@@ -4,6 +4,8 @@ History
 0.5 - Unreleased
 ----------------
 
+- Use SQLAlchemy declarative-style.  (for Kotti 0.6.0)
+
 - Content.type_info now expects a 'title' attribute; provide it.
 
 0.4 - 2011-12-14

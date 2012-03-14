@@ -1,15 +1,16 @@
-from sqlalchemy import Table
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import Boolean
 from sqlalchemy import DateTime
-from sqlalchemy.orm import mapper
-from kotti import metadata
 from kotti.resources import Content
 from kotti.util import JsonType
 
 class Calendar(Content):
+    id = Column(Integer, ForeignKey('contents.id'), primary_key=True)
+    feeds = Column(JsonType(), nullable=False)
+    weekends = Column(Boolean())
+
     type_info = Content.type_info.copy(
         name=u'Calendar',
         title=u'Calendar',
@@ -23,6 +24,11 @@ class Calendar(Content):
         self.weekends = weekends
 
 class Event(Content):
+    id = Column('id', Integer, ForeignKey('contents.id'), primary_key=True)
+    start = Column('start', DateTime(), nullable=False)
+    end = Column('end', DateTime())
+    all_day = Column('all_day', Boolean())
+
     type_info = Content.type_info.copy(
         name=u'Event',
         title=u'Event',
@@ -36,20 +42,3 @@ class Event(Content):
         self.start = start
         self.end = end
         self.all_day = all_day
-
-
-calendars = Table('calendars', metadata,
-    Column('id', Integer, ForeignKey('contents.id'), primary_key=True),
-    Column('feeds', JsonType(), nullable=False),
-    Column('weekends', Boolean()),
-)
-
-events = Table('events', metadata,
-    Column('id', Integer, ForeignKey('contents.id'), primary_key=True),
-    Column('start', DateTime(), nullable=False),
-    Column('end', DateTime()),
-    Column('all_day', Boolean()),
-)
-
-mapper(Calendar, calendars, inherits=Content, polymorphic_identity='calendar')
-mapper(Event, events, inherits=Content, polymorphic_identity='event')
