@@ -1,7 +1,7 @@
 History
 =======
 
-0.5 - Unreleased
+0.5 - 2012-03-15
 ----------------
 
 - Use SQLAlchemy declarative-style.  (for Kotti 0.6.0)
