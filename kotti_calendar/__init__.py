@@ -1,7 +1,6 @@
 def kotti_configure(settings):
-    settings['kotti.includes'] += ' kotti_calendar.views'
+    settings['pyramid.includes'] += ' kotti_calendar.views'
     settings['kotti.available_types'] += ' kotti_calendar.resources.Calendar kotti_calendar.resources.Event'
-
 
 def _patch_colander():
     # https://github.com/dnouri/colander/commit/6a09583a8b9bcae29d6f51ce05434becff379134
