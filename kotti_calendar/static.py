@@ -31,6 +31,19 @@ gcal_js = Resource(
     depends=[fullcalendar_js, ],
     minified="fullcalendar/gcal.min.js")
 
+fullcalendar_locales = {
+    "de": Resource(
+        lib,
+        "fullcalendar/fullcalendar_de.js",
+        depends=[fullcalendar_js, ],
+        minified="fullcalendar/fullcalendar_de.min.js"),
+    "en": Resource(
+        lib,
+        "fullcalendar/fullcalendar_en.js",
+        depends=[fullcalendar_js, ],
+        minified="fullcalendar/fullcalendar_en.min.js"),
+}
+
 kotti_calendar_css = Resource(
     lib,
     "style.css",

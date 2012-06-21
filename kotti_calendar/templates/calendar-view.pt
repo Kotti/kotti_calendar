@@ -51,7 +51,7 @@
     </ul>
 
     <script type="text/javascript">
-      $('#fullcalendar').fullCalendar(${fullcalendar_options});
+      $('#fullcalendar').fullCalendar($.extend(${fullcalendar_options}, localOptions));
     </script>
 
   </article>
