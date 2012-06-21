@@ -1,6 +1,7 @@
 import datetime
 from pyramid.compat import json
 from pyramid.i18n import get_locale_name
+from pyramid.i18n import TranslationStringFactory
 from pyramid.url import resource_url
 
 import colander
@@ -17,6 +18,8 @@ from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
 from kotti_calendar.static import fullcalendar_locales
 from kotti_calendar.static import kotti_calendar_resources
+
+_ = TranslationStringFactory('kotti_calendar')
 
 
 class Feeds(colander.SequenceSchema):

@@ -14,7 +14,7 @@ tests_require = [
     ]
 
 setup(name='kotti_calendar',
-      version='0.6dev',
+      version='0.6.1',
       description="Add a calendar to your Kotti site",
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -33,7 +33,15 @@ setup(name='kotti_calendar',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
-      install_requires=['Kotti>=0.6.0b1'] + tests_require,
+      install_requires=[
+        'Babel',
+        'Kotti>=0.7dev',
+        'lingua', ] + tests_require,
+      message_extractors={
+        '.': [
+            ('**.py', 'lingua_python', None),
+            ('**.pt', 'lingua_xml', None),
+        ]},
       entry_points="""
         [fanstatic.libraries]
         kotti_calendar = kotti_calendar.static:lib
