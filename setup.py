@@ -14,7 +14,7 @@ tests_require = [
     ]
 
 setup(name='kotti_calendar',
-      version='0.5.1',
+      version='0.6dev',
       description="Add a calendar to your Kotti site",
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -34,4 +34,8 @@ setup(name='kotti_calendar',
       include_package_data=True,
       zip_safe=False,
       install_requires=['Kotti>=0.6.0b1'] + tests_require,
+      entry_points="""
+        [fanstatic.libraries]
+        kotti_calendar = kotti_calendar.static:lib
+        """,
       )

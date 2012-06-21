@@ -14,6 +14,8 @@ from kotti.views.util import template_api
 
 from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
+from kotti_calendar.static import kotti_calendar_resources
+
 
 class Feeds(colander.SequenceSchema):
     feed = colander.SchemaNode(
@@ -51,6 +53,7 @@ def add_event(context, request):
     return generic_add(context, request, EventSchema(), Event, u'event')
 
 def view_calendar(context, request):
+    kotti_calendar_resources.need()
     session = DBSession()
     now = datetime.datetime.now()
     query = session.query(Event).filter(Event.parent_id==context.id)
@@ -74,6 +77,7 @@ def view_calendar(context, request):
         'eventSources': context.feeds,
         'weekends': context.weekends,
         'events': fullcalendar_events,
+        'firstDay': 1,
         }
 
     return {
