@@ -1,4 +1,5 @@
 from kotti.resources import Content
+from kotti.resources import Document
 from kotti.util import JsonType
 from kotti_calendar import _
 from sqlalchemy import Boolean
@@ -26,8 +27,8 @@ class Calendar(Content):
         self.weekends = weekends
 
 
-class Event(Content):
-    id = Column('id', Integer, ForeignKey('contents.id'), primary_key=True)
+class Event(Document):
+    id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     start = Column('start', DateTime(), nullable=False)
     end = Column('end', DateTime())
     all_day = Column('all_day', Boolean())

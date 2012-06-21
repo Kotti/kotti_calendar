@@ -6,22 +6,26 @@
       metal:use-macro="api.macro('kotti:templates/view/master.pt')">
 
   <article metal:fill-slot="content" class="event-view content" i18n:domain="kotti_calendar">
-    <h1>${api.context.title}</h1>
-    <p class="description">
-      ${api.context.description}
-    </p>
+    <h1>${context.title}</h1>
+    <div class="row">
+      <div class="span9">
+        <p class="description">
+          ${context.description}
+        </p>
+        <div class="body" tal:content="structure context.body"></div>
+      </div>
+      <div class="span3">
+        <ul class="nav nav-list" tal:define="format context.all_day and api.format_date or api.format_datetime">
+          <li class="nav-header" i18n:translate="event_start">Start</li>
+          <li>${format(context.start)}</li>
 
-    <dl tal:define="format api.context.all_day and api.format_date or api.format_datetime">
-      <dt i18n:translate="event_start">Start</dt>
-      <dd>${format(api.context.start)}</dd>
+          <li class="nav-header" tal:condition="api.context.end" i18n:translate="event_end">End</li>
+          <li tal:condition="api.context.end">${format(context.end)}</li>
 
-      <dt tal:condition="api.context.end" i18n:translate="event_end">End</dt>
-      <dd tal:condition="api.context.end">${format(api.context.end)}</dd>
-
-      <dt i18n:translate="All day">All Day</dt>
-      <dd tal:condition="api.context.all_day" i18n:translate="yes">Yes</dd>
-      <dd tal:condition="not api.context.all_day" i18n:translate="no">No</dd>
-    </dl>
+          <li class="nav-header" tal:condition="context.all_day" i18n:translate="All day">All Day</li>
+        </ul>
+      </div>
+    </div>
   </article>
 
 </html>

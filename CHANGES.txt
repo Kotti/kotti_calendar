@@ -1,8 +1,11 @@
 History
 =======
 
-0.6.1 - Unreleased
-------------------
+0.7 - Unreleased
+----------------
+
+- Subclass Event from Document instead of Content to allow
+  richtext content for events. (disko)
 
 - Add Python/PageTemplate i18n with German locale. (disko)
 

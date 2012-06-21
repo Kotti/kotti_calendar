@@ -2,6 +2,7 @@ import colander
 import datetime
 from kotti import DBSession
 from kotti.views.edit import ContentSchema
+from kotti.views.edit import DocumentSchema
 from kotti.views.edit import generic_add
 from kotti.views.edit import generic_edit
 from kotti.views.view import view_node
@@ -37,7 +38,7 @@ class CalendarSchema(ContentSchema):
         title=_(u"Weekends"))
 
 
-class EventSchema(ContentSchema):
+class EventSchema(DocumentSchema):
     start = colander.SchemaNode(
         colander.DateTime(default_tzinfo=None),
         title=_(u"Start"))
