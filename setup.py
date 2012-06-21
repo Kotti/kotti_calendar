@@ -14,7 +14,7 @@ tests_require = [
     ]
 
 setup(name='kotti_calendar',
-      version='0.6.1',
+      version='0.6.1dev',
       description="Add a calendar to your Kotti site",
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
