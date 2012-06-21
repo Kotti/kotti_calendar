@@ -1,5 +1,6 @@
 import datetime
 from pyramid.compat import json
+from pyramid.i18n import get_locale_name
 from pyramid.url import resource_url
 
 import colander
@@ -14,6 +15,9 @@ from kotti.views.util import template_api
 
 from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
+from kotti_calendar.static import fullcalendar_locales
+from kotti_calendar.static import kotti_calendar_resources
+
 
 class Feeds(colander.SequenceSchema):
     feed = colander.SchemaNode(
@@ -51,6 +55,14 @@ def add_event(context, request):
     return generic_add(context, request, EventSchema(), Event, u'event')
 
 def view_calendar(context, request):
+
+    kotti_calendar_resources.need()
+    locale_name = get_locale_name(request)
+    if locale_name in fullcalendar_locales:
+        fullcalendar_locales[locale_name].need()
+    else:
+        fullcalendar_locales["en"].need()
+
     session = DBSession()
     now = datetime.datetime.now()
     query = session.query(Event).filter(Event.parent_id==context.id)

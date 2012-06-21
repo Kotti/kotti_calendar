@@ -4,14 +4,6 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       metal:use-macro="api.macro('kotti:templates/view/master.pt')">
 
-  <head tal:omit-tag="" metal:fill-slot="head-more">
-    <link rel="stylesheet" href="${request.static_url('kotti_calendar:static/fullcalendar/fullcalendar.css')}" type="text/css" />
-    <link rel="stylesheet" href="${request.static_url('kotti_calendar:static/style.css')}" type="text/css" />
-    <script type="text/javascript" src="${request.static_url('kotti_calendar:static/fullcalendar/fullcalendar.min.js')}"></script>    
-    <script type="text/javascript" src="${request.static_url('kotti_calendar:static/fullcalendar/gcal.js')}"></script>    
-    <more tal:omit-tag="" metal:define-slot="head"></more>
-  </head>
-
   <article metal:fill-slot="content" class="calendar-view content">
 
     <h1>${api.context.title}</h1>
@@ -59,7 +51,7 @@
     </ul>
 
     <script type="text/javascript">
-      $('#fullcalendar').fullCalendar(${fullcalendar_options});
+      $('#fullcalendar').fullCalendar($.extend(${fullcalendar_options}, localOptions));
     </script>
 
   </article>
