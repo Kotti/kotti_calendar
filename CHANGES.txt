@@ -1,17 +1,14 @@
 History
 =======
 
-0.6
----
+0.6 - 2012-06-21
+----------------
 
-- Use Fanstatic (Kotti 0.7 only) (disko)
+- Use Fanstatic (Kotti>=0.7 only) (disko)
 
 - Upgrade to fullcalendar 1.5.3 (disko)
 
 - Add German locale (disko)
-
-0.5.1 - Unreleased
-------------------
 
 0.5 - 2012-03-15
 ----------------
