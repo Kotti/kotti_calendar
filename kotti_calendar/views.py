@@ -83,6 +83,11 @@ def view_calendar(context, request):
         fullcalendar_events.append(json_event)
 
     fullcalendar_options = {
+        'header': {
+            'left': 'prev,next today',
+            'center': 'title',
+            'right': 'month,agendaWeek,agendaDay'
+        },
         'eventSources': context.feeds,
         'weekends': context.weekends,
         'events': fullcalendar_events,
