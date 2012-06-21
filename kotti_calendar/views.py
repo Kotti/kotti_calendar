@@ -1,61 +1,72 @@
-import datetime
-from pyramid.compat import json
-from pyramid.i18n import get_locale_name
-from pyramid.i18n import TranslationStringFactory
-from pyramid.url import resource_url
-
 import colander
-from sqlalchemy import desc
+import datetime
 from kotti import DBSession
 from kotti.views.edit import ContentSchema
-from kotti.views.edit import generic_edit
 from kotti.views.edit import generic_add
+from kotti.views.edit import generic_edit
 from kotti.views.view import view_node
 from kotti.views.util import ensure_view_selector
 from kotti.views.util import template_api
-
+from kotti_calendar import _
 from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
 from kotti_calendar.static import fullcalendar_locales
 from kotti_calendar.static import kotti_calendar_resources
-
-_ = TranslationStringFactory('kotti_calendar')
+from pyramid.compat import json
+from pyramid.i18n import get_locale_name
+from pyramid.url import resource_url
+from sqlalchemy import desc
 
 
 class Feeds(colander.SequenceSchema):
     feed = colander.SchemaNode(
         colander.String(),
+        title=_(u"Feed"),
         missing=None,
         )
+
 
 class CalendarSchema(ContentSchema):
     feeds = Feeds(
         missing=[],
-        title=u"Calendar feeds",
-        description=u"Paste Google calendar XML feeds here",
+        title=_(u"Calendar feeds"),
+        description=_(u"Paste Google calendar XML feeds here"),
         )
-    weekends = colander.SchemaNode(colander.Boolean())
+    weekends = colander.SchemaNode(
+        colander.Boolean(),
+        title=_(u"Weekends"))
+
 
 class EventSchema(ContentSchema):
     start = colander.SchemaNode(
-        colander.DateTime(default_tzinfo=None))
+        colander.DateTime(default_tzinfo=None),
+        title=_(u"Start"))
     end = colander.SchemaNode(
-        colander.DateTime(default_tzinfo=None), missing=None)
-    all_day = colander.SchemaNode(colander.Boolean())
+        colander.DateTime(default_tzinfo=None),
+        title=_(u"End"),
+        missing=None)
+    all_day = colander.SchemaNode(
+        colander.Boolean(),
+        title=_(u"All day"))
+
 
 @ensure_view_selector
 def edit_calendar(context, request):
     return generic_edit(context, request, CalendarSchema())
 
+
 def add_calendar(context, request):
     return generic_add(context, request, CalendarSchema(), Calendar, u'calendar')
+
 
 @ensure_view_selector
 def edit_event(context, request):
     return generic_edit(context, request, EventSchema())
 
+
 def add_event(context, request):
     return generic_add(context, request, EventSchema(), Event, u'event')
+
 
 def view_calendar(context, request):
 
@@ -68,7 +79,7 @@ def view_calendar(context, request):
 
     session = DBSession()
     now = datetime.datetime.now()
-    query = session.query(Event).filter(Event.parent_id==context.id)
+    query = session.query(Event).filter(Event.parent_id == context.id)
     upcoming = query.filter(Event.start > now).order_by(Event.start).all()
     past = query.filter(Event.start < now).order_by(desc(Event.start)).all()
 
@@ -103,6 +114,7 @@ def view_calendar(context, request):
         'fullcalendar_options': json.dumps(fullcalendar_options),
         }
 
+
 def includeme_edit(config):
     config.add_view(
         edit_calendar,
@@ -134,6 +146,7 @@ def includeme_edit(config):
         renderer='kotti:templates/edit/node.pt',
         )
 
+
 def includeme_view(config):
     config.add_view(
         view_calendar,
@@ -152,6 +165,7 @@ def includeme_view(config):
         )
 
     config.add_static_view('static-kotti_calendar', 'kotti_calendar:static')
+
 
 def includeme(config):
     includeme_edit(config)

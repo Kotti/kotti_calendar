@@ -1,10 +1,12 @@
-from sqlalchemy import Column
-from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
-from sqlalchemy import Boolean
-from sqlalchemy import DateTime
 from kotti.resources import Content
 from kotti.util import JsonType
+from kotti_calendar import _
+from sqlalchemy import Boolean
+from sqlalchemy import Column
+from sqlalchemy import DateTime
+from sqlalchemy import ForeignKey
+from sqlalchemy import Integer
+
 
 class Calendar(Content):
     id = Column(Integer, ForeignKey('contents.id'), primary_key=True)
@@ -13,7 +15,7 @@ class Calendar(Content):
 
     type_info = Content.type_info.copy(
         name=u'Calendar',
-        title=u'Calendar',
+        title=_(u'Calendar'),
         add_view=u'add_calendar',
         addable_to=[u'Document'],
         )
@@ -23,6 +25,7 @@ class Calendar(Content):
         self.feeds = feeds
         self.weekends = weekends
 
+
 class Event(Content):
     id = Column('id', Integer, ForeignKey('contents.id'), primary_key=True)
     start = Column('start', DateTime(), nullable=False)
@@ -31,7 +34,7 @@ class Event(Content):
 
     type_info = Content.type_info.copy(
         name=u'Event',
-        title=u'Event',
+        title=_(u'Event'),
         add_view=u'add_event',
         addable_to=[u'Calendar'],
         )

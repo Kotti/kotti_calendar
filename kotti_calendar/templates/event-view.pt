@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       metal:use-macro="api.macro('kotti:templates/view/master.pt')">
 
-  <article metal:fill-slot="content" class="event-view content">
+  <article metal:fill-slot="content" class="event-view content" i18n:domain="kotti_calendar">
     <h1>${api.context.title}</h1>
     <p class="description">
       ${api.context.description}
     </p>
 
     <dl tal:define="format api.context.all_day and api.format_date or api.format_datetime">
-      <dt>Start</dt>
+      <dt i18n:translate="event_start">Start</dt>
       <dd>${format(api.context.start)}</dd>
 
-      <dt tal:condition="api.context.end">End</dt>
+      <dt tal:condition="api.context.end" i18n:translate="event_end">End</dt>
       <dd tal:condition="api.context.end">${format(api.context.end)}</dd>
 
-      <dt>All Day</dt>
-      <dd tal:condition="api.context.all_day">Yes</dd>
-      <dd tal:condition="not api.context.all_day">No</dd>
+      <dt i18n:translate="All day">All Day</dt>
+      <dd tal:condition="api.context.all_day" i18n:translate="yes">Yes</dd>
+      <dd tal:condition="not api.context.all_day" i18n:translate="no">No</dd>
     </dl>
   </article>
 
