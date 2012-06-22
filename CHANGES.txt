@@ -1,11 +1,12 @@
 History
 =======
 
-0.7 - Unreleased
-----------------
+0.7a1 - 2012-06-22
+------------------
 
 - Subclass Event from Document instead of Content to allow
   richtext content for events. (disko)
+  TODO: migration
 
 - Add Python/PageTemplate i18n with German locale. (disko)
 
