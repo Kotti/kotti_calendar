@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: kotti_calendar 0.6.1dev\n"
+"Project-Id-Version: kotti_calendar 0.7dev2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-06-21 17:01+0200\n"
+"POT-Creation-Date: 2012-08-23 10:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,40 +17,40 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: kotti_calendar/resources.py:18
+#: kotti_calendar/resources.py:19
 msgid "Calendar"
 msgstr ""
 
-#: kotti_calendar/resources.py:37
+#: kotti_calendar/resources.py:38
 msgid "Event"
 msgstr ""
 
-#: kotti_calendar/views.py:24
+#: kotti_calendar/views.py:25
 msgid "Feed"
 msgstr ""
 
-#: kotti_calendar/views.py:32
+#: kotti_calendar/views.py:33
 msgid "Calendar feeds"
 msgstr ""
 
-#: kotti_calendar/views.py:33
+#: kotti_calendar/views.py:34
 msgid "Paste Google calendar XML feeds here"
 msgstr ""
 
-#: kotti_calendar/views.py:37
+#: kotti_calendar/views.py:38
 msgid "Weekends"
 msgstr ""
 
-#: kotti_calendar/views.py:43
+#: kotti_calendar/views.py:44
 msgid "Start"
 msgstr ""
 
-#: kotti_calendar/views.py:46
+#: kotti_calendar/views.py:47
 msgid "End"
 msgstr ""
 
 #. Default: All Day
-#: kotti_calendar/views.py:50 kotti_calendar/templates/event-view.pt:21
+#: kotti_calendar/views.py:51 kotti_calendar/templates/event-view.pt:25
 msgid "All day"
 msgstr ""
 
@@ -65,22 +65,16 @@ msgid "past_events"
 msgstr ""
 
 #. Default: Start
-#: kotti_calendar/templates/event-view.pt:15
+#: kotti_calendar/templates/event-view.pt:19
 msgid "event_start"
 msgstr ""
 
 #. Default: End
-#: kotti_calendar/templates/event-view.pt:18
+#: kotti_calendar/templates/event-view.pt:22
 msgid "event_end"
 msgstr ""
 
-#. Default: Yes
-#: kotti_calendar/templates/event-view.pt:22
-msgid "yes"
-msgstr ""
-
-#. Default: No
-#: kotti_calendar/templates/event-view.pt:23
-msgid "no"
+#: kotti_calendar/templates/upcoming-events.pt:6
+msgid "Upcoming events"
 msgstr ""
 
