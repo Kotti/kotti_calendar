@@ -35,7 +35,7 @@ setup(name='kotti_calendar',
       zip_safe=False,
       install_requires=[
         'Babel',
-        'Kotti>=0.7dev',
+        'Kotti>=0.7',
         'lingua', ] + tests_require,
       message_extractors={
         '.': [
