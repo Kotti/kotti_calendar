@@ -77,5 +77,5 @@ msgstr "Ende"
 
 #: kotti_calendar/templates/upcoming-events.pt:6
 msgid "Upcoming events"
-msgstr "Zukünftige Termine"
+msgstr "Termine"
 

@@ -19,6 +19,7 @@ class TestUpcomingEventsWidget(FunctionalTestBase):
     def test_view(self):
         from kotti_calendar.widgets import upcoming_events
         from kotti.resources import get_root
+        from kotti.workflow import get_workflow
         from kotti_calendar.resources import Calendar
         from kotti_calendar.resources import Event
 
@@ -35,7 +36,11 @@ class TestUpcomingEventsWidget(FunctionalTestBase):
         root['calendar']['event2'] = Event(title=u'Event 2',
                                            start=now + timedelta(1),
                                            end=now + timedelta(2))
+        wf = get_workflow(root)
+        wf.transition_to_state(root['calendar']['event1'], None, u'public')
+        wf.transition_to_state(root['calendar']['event2'], None, u'public')
         result = upcoming_events(root, DummyRequest())
+
         assert len(result['events']) == 2
         assert result['events'][0].title == u'Event 1'
         assert result['events'][0].start == now + timedelta(1)

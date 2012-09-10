@@ -7,7 +7,9 @@ History
 - Added a widget to show the upcoming events in the right
   column of the site. (j23d)
 - Update to fullcalendar 1.5.4. whats play nice with jquery >= 1.8.
-  see: https://github.com/arshaw/fullcalendar/pull/61
+  see: https://github.com/arshaw/fullcalendar/pull/61 (j23d)
+- Check if the user has the permission to view the event. (j23d)
+
 
 0.7a1 - 2012-06-22
 ------------------
