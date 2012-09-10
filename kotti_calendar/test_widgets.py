@@ -2,6 +2,7 @@ from datetime import (
     datetime,
     timedelta,
 )
+from pyramid.threadlocal import get_current_registry
 from kotti.testing import (
     FunctionalTestBase,
     DummyRequest,
@@ -62,3 +63,30 @@ class TestUpcomingEventsWidget(FunctionalTestBase):
         browser.open(self.BASE_URL)
         assert 'This is my Event' in browser.contents
         assert 'Aug 22, 2112 8:00:00 PM' in browser.contents
+
+    def test_settings(self):
+        browser = self.login_testbrowser()
+        ctrl = browser.getControl
+        browser.getLink(u'Calendar').click()
+        ctrl('Title').value = u'Calendar'
+        ctrl(name=u'save').click()
+
+        for c in range(6):
+            browser.getLink(u'Calendar').click()
+            browser.getLink(u'Event').click()
+            ctrl('Title').value = u'Event %d' % c
+            ctrl('Start').value = u'2112-08-23 20:00:00'
+            ctrl(name=u'save').click()
+
+        browser.open(self.BASE_URL)
+        assert u"Event 5" not in browser.contents
+
+        settings = get_current_registry().settings
+        settings['kotti_calendar.upcoming_events_widget.events_count'] = u'nan'
+        browser.open(self.BASE_URL)
+        assert u"Event 5" not in browser.contents
+
+        settings = get_current_registry().settings
+        settings['kotti_calendar.upcoming_events_widget.events_count'] = u'7'
+        browser.open(self.BASE_URL)
+        assert u"Event 5" in browser.contents
