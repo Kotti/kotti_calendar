@@ -1,8 +1,8 @@
 History
 =======
 
-0.7 - Unreleased
-----------------
+0.7a2 - 2012-09-11
+------------------
 
 - Added a widget to show the upcoming events in the right
   column of the site. (j23d)
