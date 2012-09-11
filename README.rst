@@ -30,9 +30,7 @@ Upcoming events widget
 ----------------------
 
 kotti_calendar provides a upcoming events widget, which is disabled by default.
-To enable the widget add the following to the ``pyramid.includes`` setting:
-
-.. code-block:: ini
+To enable the widget add the following to the ``pyramid.includes`` setting::
 
   pyramid.includes = kotti_calendar.widgets.includeme_upcoming_events
 
