@@ -62,7 +62,7 @@ View calendar and event
 
   >>> browser.open(testing.BASE_URL + '/my-calendar/')
   >>> pos = browser.contents.index
-  >>> pos("Meet with Frank") < pos("Day off") 
+  >>> pos("Meet with Frank") < pos("Day off")
   True
   >>> "Dec 13, 2010 1:00:00 PM" in browser.contents
   True

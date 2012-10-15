@@ -81,7 +81,7 @@ def view_calendar(context, request):
     locale_name = get_locale_name(request)
     if locale_name in fullcalendar_locales:
         fullcalendar_locales[locale_name].need()
-    else:
+    else:  # pragma: no cover (safety belt only, should never happen)
         fullcalendar_locales["en"].need()
 
     session = DBSession()
