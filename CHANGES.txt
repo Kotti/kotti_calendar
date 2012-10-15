@@ -4,13 +4,16 @@ History
 0.7.1 - Unreleased
 ------------------
 
-
+- Remove fullcalendar resources and use its fanstatic packaging instead.
+  [disko]
+- Reorder imports (PEP8 style). [disko]
 
 0.7 - 2012-12-10
 ----------------
 
 - Take event end time also into account for upcoming events. [j23d]
-- Use form classes for the form views instead of deprecated generic functions. [j23d]
+- Use form classes for the form views instead of deprecated generic functions.
+  [j23d]
 - Move fanstatic library to fanstatic.py to be consistent with Kotti. [j23d]
 
 

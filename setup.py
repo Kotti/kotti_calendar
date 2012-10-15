@@ -1,5 +1,7 @@
 import os
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 here = os.path.abspath(os.path.dirname(__file__))
 try:
@@ -16,11 +18,12 @@ tests_require = [
     'zope.testbrowser',
     ]
 
-setup(name='kotti_calendar',
-      version='0.7.1dev',
-      description="Add a calendar to your Kotti site",
-      long_description=README + '\n\n' + CHANGES,
-      classifiers=[
+setup(
+    name='kotti_calendar',
+    version='0.7.1dev',
+    description="Add a calendar to your Kotti site",
+    long_description=README + '\n\n' + CHANGES,
+    classifiers=[
         "Programming Language :: Python",
         "Framework :: Pylons",
         "Topic :: Internet :: WWW/HTTP",
@@ -28,26 +31,28 @@ setup(name='kotti_calendar',
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "License :: Repoze Public License",
         ],
-      author='Daniel Nouri',
-      author_email='daniel.nouri@gmail.com',
-      url='http://pypi.python.org/pypi/kotti_calendar',
-      keywords='calendar fullcalendar kotti cms pylons pyramid',
-      license="BSD-derived (http://www.repoze.org/LICENSE.txt)",
-      packages=find_packages(),
-      include_package_data=True,
-      zip_safe=False,
-      install_requires=[
+    author='Daniel Nouri',
+    author_email='daniel.nouri@gmail.com',
+    url='http://pypi.python.org/pypi/kotti_calendar',
+    keywords='calendar fullcalendar kotti cms pylons pyramid',
+    license="BSD-derived (http://www.repoze.org/LICENSE.txt)",
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=[
         'Babel',
-        'Kotti>=0.8a1',
-        'lingua',
-         ] + tests_require,
-      message_extractors={
+        'js.fullcalendar',
+        'Kotti>=0.7',
+        'lingua', ] + tests_require,
+    message_extractors={
         '.': [
             ('**.py', 'lingua_python', None),
             ('**.pt', 'lingua_xml', None),
-        ]},
-      entry_points="""
-      [fanstatic.libraries]
-      kotti_calendar = kotti_calendar.fanstatic:lib
-      """,
-      )
+            ]
+        },
+    entry_points={
+        'fanstatic.libraries': [
+            'kotti_calendar = kotti_calendar.fanstatic:lib'
+            ],
+        },
+    )

@@ -1,10 +1,10 @@
 import datetime
 
-from sqlalchemy.sql.expression import or_
-
 from kotti import DBSession
 from kotti.security import has_permission
 from kotti.views.slots import assign_slot
+from sqlalchemy.sql.expression import or_
+
 from kotti_calendar import events_settings
 from kotti_calendar.resources import Event
 

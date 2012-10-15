@@ -1,5 +1,5 @@
-from pyramid.i18n import TranslationStringFactory
 from kotti.util import extract_from_settings
+from pyramid.i18n import TranslationStringFactory
 
 _ = TranslationStringFactory('kotti_calendar')
 
