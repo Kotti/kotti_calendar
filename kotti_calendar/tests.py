@@ -1,20 +1,19 @@
-from datetime import (
-    datetime,
-    timedelta,
-)
+from datetime import datetime
+from datetime import timedelta
+
 from pyramid.threadlocal import get_current_registry
-from kotti.testing import (
-    FunctionalTestBase,
-    DummyRequest,
-)
+from kotti.testing import FunctionalTestBase
+from kottit.testing import DummyRequest
 
 
 class TestUpcomingEventsWidget(FunctionalTestBase):
-
     def setUp(self):
-        conf = {'kotti.configurators': 'kotti_calendar.kotti_configure',
-                'pyramid.includes': 'kotti_calendar.widgets.includeme_upcoming_events',
-                }
+        conf = {
+            'kotti.configurators':
+            'kotti_calendar.kotti_configure',
+            'pyramid.includes':
+            'kotti_calendar.widgets.includeme_upcoming_events',
+            }
         super(TestUpcomingEventsWidget, self).setUp(**conf)
 
     def test_view(self):

@@ -1,14 +1,13 @@
 Kotti.db
 kotti_calendar.egg-info/
 bin/
+build/
 develop-eggs/
 dist/
 eggs/
+local
 include/
 lib/
 *.pyc
 *.pt.py
 .coverage
-.installed.cfg
-coverage-*
-nose-*
