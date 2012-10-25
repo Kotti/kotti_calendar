@@ -1,6 +1,7 @@
 import colander
 import datetime
 from kotti import DBSession
+from kotti.security import has_permission
 from kotti.views.edit import ContentSchema
 from kotti.views.edit import DocumentSchema
 from kotti.views.edit import generic_add
@@ -83,6 +84,10 @@ def view_calendar(context, request):
     query = session.query(Event).filter(Event.parent_id == context.id)
     upcoming = query.filter(Event.start > now).order_by(Event.start).all()
     past = query.filter(Event.start < now).order_by(desc(Event.start)).all()
+    upcoming = [event for event in upcoming if\
+                has_permission('view', event, request)]
+    past = [event for event in past if\
+                has_permission('view', event, request)]
 
     fmt = '%Y-%m-%d %H:%M:%S'
     fullcalendar_events = []

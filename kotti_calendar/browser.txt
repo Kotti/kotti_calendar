@@ -71,3 +71,37 @@ View calendar and event
   >>> browser.getLink("Day off").click()
   >>> "Nov 12, 2010" in browser.contents
   True
+
+
+Edit calendar and events
+------------------------
+  >>> browser.open(tests.BASE_URL + '/my-calendar/edit')
+  >>> ctrl("Title").value = "My personal Calendar"
+  >>> ctrl("save").click()
+  >>> "My personal Calendar" in browser.contents
+  True
+
+  >>> browser.open(tests.BASE_URL + '/my-calendar/day-off/edit')
+  >>> ctrl("Description").value = "all day long"
+  >>> ctrl("save").click()
+  >>> "all day long" in browser.contents
+  True
+
+Private events should not be shown in the calendar
+--------------------------------------------------
+
+  >>> browser.open(tests.BASE_URL + '/my-calendar/')
+  >>> browser_anonymous = tools['Browser']()
+  >>> browser_anonymous.open(tests.BASE_URL + '/my-calendar/')
+  >>> "Dec 13, 2010 1:00:00 PM" in browser_anonymous.contents
+  False
+  >>> "Nov 12, 2010" in browser_anonymous.contents
+  False
+
+  >>> browser.open(tests.BASE_URL + '/my-calendar/day-off')
+  >>> browser.getLink("Make Public").click()
+  >>> browser_anonymous.open(tests.BASE_URL + '/my-calendar/')
+  >>> "Dec 13, 2010 1:00:00 PM" in browser_anonymous.contents
+  False
+  >>> "Nov 12, 2010" in browser_anonymous.contents
+  True

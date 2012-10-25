@@ -26,5 +26,21 @@ like this::
 With this, you'll be able to add calendar and event items in your site.
 
 
+Upcoming events widget
+----------------------
+
+kotti_calendar provides a upcoming events widget, which is disabled by default.
+To enable the widget add the following to the ``pyramid.includes`` setting::
+
+  pyramid.includes = kotti_calendar.widgets.includeme_upcoming_events
+
+With this, the upcoming events will be shown in the right column of the site.
+
+You can adjust how many events will be shown in the widget with set
+``kotti_calendar.upcoming_events_widget.events_count`` to a different
+value. It defaults to ``5``::
+
+    kotti_calendar.upcoming_events_widget.events_count = 10
+
 .. _FullCalendar jQuery plugin: http://arshaw.com/fullcalendar/
 .. _Find out more about Kotti: http://pypi.python.org/pypi/Kotti
