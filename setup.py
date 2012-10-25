@@ -11,6 +11,9 @@ except IOError:
 tests_require = [
     'pytest-cov',
     'pytest',
+    'webtest',
+    'wsgi_intercept',
+    'zope.testbrowser',
     ]
 
 setup(name='kotti_calendar',
@@ -35,15 +38,16 @@ setup(name='kotti_calendar',
       zip_safe=False,
       install_requires=[
         'Babel',
-        'Kotti>=0.7dev',
-        'lingua', ] + tests_require,
+        'Kotti>=0.7',
+        'lingua',
+         ] + tests_require,
       message_extractors={
         '.': [
             ('**.py', 'lingua_python', None),
             ('**.pt', 'lingua_xml', None),
         ]},
       entry_points="""
-        [fanstatic.libraries]
-        kotti_calendar = kotti_calendar.static:lib
-        """,
+      [fanstatic.libraries]
+      kotti_calendar = kotti_calendar.static:lib
+      """,
       )
