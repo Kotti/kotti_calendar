@@ -52,7 +52,7 @@ Add events
 
   >>> ctrl("Title").value = "Day off"
   >>> ctrl("Start").value = "2010-11-12 00:00:00"
-  >>> ctrl("All Day").click()
+  >>> ctrl("All day").click()
   >>> ctrl("save").click()
   >>> "Successfully added item" in browser.contents
   True
