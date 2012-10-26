@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from pyramid.threadlocal import get_current_registry
 from kotti.testing import FunctionalTestBase
-from kottit.testing import DummyRequest
+from kotti.testing import DummyRequest
 
 
 class TestUpcomingEventsWidget(FunctionalTestBase):
