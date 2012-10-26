@@ -4,13 +4,13 @@ kotti_calendar browser tests
 Setup and Login
 ---------------
 
-  >>> from kotti import tests
-  >>> tools = tests.setUpFunctional(
+  >>> from kotti import testing
+  >>> tools = testing.setUpFunctional(
   ...     **{'kotti.configurators': 'kotti_calendar.kotti_configure'})
   >>> browser = tools['Browser']()
   >>> ctrl = browser.getControl
 
-  >>> browser.open(tests.BASE_URL + '/edit')
+  >>> browser.open(testing.BASE_URL + '/edit')
   >>> "Log in" in browser.contents
   True
   >>> ctrl("Username or email").value = "admin"
@@ -28,13 +28,13 @@ Add a calendar
   >>> ctrl("save").click()
   >>> "Successfully added item" in browser.contents
   True
-  >>> browser.url == tests.BASE_URL + '/my-calendar/'
+  >>> browser.url == testing.BASE_URL + '/my-calendar/'
   True
 
 Add events
 ----------
 
-  >>> browser.open(tests.BASE_URL + '/my-calendar/')
+  >>> browser.open(testing.BASE_URL + '/my-calendar/')
   >>> browser.getLink("Add").click()
   >>> browser.getLink("Event").click()
 
@@ -46,7 +46,7 @@ Add events
   >>> "Successfully added item" in browser.contents
   True
 
-  >>> browser.open(tests.BASE_URL + '/my-calendar/')
+  >>> browser.open(testing.BASE_URL + '/my-calendar/')
   >>> browser.getLink("Add").click()
   >>> browser.getLink("Event").click()
 
@@ -60,7 +60,7 @@ Add events
 View calendar and event
 -----------------------
 
-  >>> browser.open(tests.BASE_URL + '/my-calendar/')
+  >>> browser.open(testing.BASE_URL + '/my-calendar/')
   >>> pos = browser.contents.index
   >>> pos("Meet with Frank") < pos("Day off") 
   True
@@ -75,13 +75,13 @@ View calendar and event
 
 Edit calendar and events
 ------------------------
-  >>> browser.open(tests.BASE_URL + '/my-calendar/edit')
+  >>> browser.open(testing.BASE_URL + '/my-calendar/edit')
   >>> ctrl("Title").value = "My personal Calendar"
   >>> ctrl("save").click()
   >>> "My personal Calendar" in browser.contents
   True
 
-  >>> browser.open(tests.BASE_URL + '/my-calendar/day-off/edit')
+  >>> browser.open(testing.BASE_URL + '/my-calendar/day-off/edit')
   >>> ctrl("Description").value = "all day long"
   >>> ctrl("save").click()
   >>> "all day long" in browser.contents
@@ -90,17 +90,18 @@ Edit calendar and events
 Private events should not be shown in the calendar
 --------------------------------------------------
 
-  >>> browser.open(tests.BASE_URL + '/my-calendar/')
+  >>> browser.open(testing.BASE_URL + '/my-calendar/')
+  >>> browser.getLink("Make Public").click()
   >>> browser_anonymous = tools['Browser']()
-  >>> browser_anonymous.open(tests.BASE_URL + '/my-calendar/')
+  >>> browser_anonymous.open(testing.BASE_URL + '/my-calendar/')
   >>> "Dec 13, 2010 1:00:00 PM" in browser_anonymous.contents
   False
   >>> "Nov 12, 2010" in browser_anonymous.contents
   False
 
-  >>> browser.open(tests.BASE_URL + '/my-calendar/day-off')
+  >>> browser.open(testing.BASE_URL + '/my-calendar/day-off')
   >>> browser.getLink("Make Public").click()
-  >>> browser_anonymous.open(tests.BASE_URL + '/my-calendar/')
+  >>> browser_anonymous.open(testing.BASE_URL + '/my-calendar/')
   >>> "Dec 13, 2010 1:00:00 PM" in browser_anonymous.contents
   False
   >>> "Nov 12, 2010" in browser_anonymous.contents
