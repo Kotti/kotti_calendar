@@ -1,12 +1,13 @@
-from kotti.resources import Content
-from kotti.resources import Document
-from kotti.sqla import JsonType
-from kotti_calendar import _
 from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
+
+from kotti.resources import Content
+from kotti.resources import Document
+from kotti.sqla import JsonType
+from kotti_calendar import _
 
 
 class Calendar(Content):
