@@ -3,7 +3,9 @@ from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
+from zope.interface import implements
 
+from kotti.resources import IDefaultWorkflow
 from kotti.resources import Content
 from kotti.resources import Document
 from kotti.sqla import JsonType
@@ -11,6 +13,8 @@ from kotti_calendar import _
 
 
 class Calendar(Content):
+    implements(IDefaultWorkflow)
+
     id = Column(Integer, ForeignKey('contents.id'), primary_key=True)
     feeds = Column(JsonType(), nullable=False)
     weekends = Column(Boolean())
