@@ -6,6 +6,7 @@ History
 
 - Take event end time also into account for upcoming events. [j23d]
 - Use form classes for the form views instead of deprecated generic functions. [j23d]
+- Move fanstatic library to fanstatic.py to be consistent with Kotti. [j23d]
 
 
 0.7a3 - 2012-09-11

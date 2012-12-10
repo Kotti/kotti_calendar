@@ -18,8 +18,8 @@ from kotti.views.util import template_api
 from kotti_calendar import _
 from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
-from kotti_calendar.static import fullcalendar_locales
-from kotti_calendar.static import kotti_calendar_resources
+from kotti_calendar.fanstatic import fullcalendar_locales
+from kotti_calendar.fanstatic import kotti_calendar_resources
 
 
 class Feeds(colander.SequenceSchema):

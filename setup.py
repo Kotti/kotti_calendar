@@ -48,6 +48,6 @@ setup(name='kotti_calendar',
         ]},
       entry_points="""
       [fanstatic.libraries]
-      kotti_calendar = kotti_calendar.static:lib
+      kotti_calendar = kotti_calendar.fanstatic:lib
       """,
       )
