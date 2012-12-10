@@ -5,6 +5,7 @@ from pyramid.compat import json
 from pyramid.i18n import get_locale_name
 from pyramid.url import resource_url
 from sqlalchemy import desc
+from sqlalchemy.sql.expression import or_
 
 from kotti import DBSession
 from kotti.security import has_permission
@@ -86,7 +87,8 @@ def view_calendar(context, request):
     session = DBSession()
     now = datetime.datetime.now()
     query = session.query(Event).filter(Event.parent_id == context.id)
-    upcoming = query.filter(Event.start > now).order_by(Event.start).all()
+    future = or_(Event.start > now, Event.end > now)
+    upcoming = query.filter(future).order_by(Event.start).all()
     past = query.filter(Event.start < now).order_by(desc(Event.start)).all()
     upcoming = [event for event in upcoming if\
                 has_permission('view', event, request)]

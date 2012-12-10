@@ -12,8 +12,8 @@ from kotti_calendar.resources import Event
 def upcoming_events(context, request):
     now = datetime.datetime.now()
     settings = events_settings()
-    when = or_(Event.start > now, Event.end > now)
-    events = DBSession.query(Event).filter(when).order_by(Event.start).all()
+    future = or_(Event.start > now, Event.end > now)
+    events = DBSession.query(Event).filter(future).order_by(Event.start).all()
     events = [event for event in events if\
                 has_permission('view', event, request)]
     if len(events) > settings['events_count']:
