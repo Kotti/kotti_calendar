@@ -4,6 +4,8 @@ History
 0.7 - Unreleased
 ----------------
 
+- Take event end time also into account for upcoming events. [j23d]
+
 
 0.7a3 - 2012-09-11
 ------------------

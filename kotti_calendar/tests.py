@@ -31,7 +31,7 @@ class TestUpcomingEventsWidget(FunctionalTestBase):
 
         root['calendar'] = Calendar()
         root['calendar']['event1'] = Event(title=u'Event 1',
-                                           start=now + timedelta(1),
+                                           start=now - timedelta(1),
                                            end=now + timedelta(2))
         root['calendar']['event2'] = Event(title=u'Event 2',
                                            start=now + timedelta(1),
@@ -41,9 +41,12 @@ class TestUpcomingEventsWidget(FunctionalTestBase):
         wf.transition_to_state(root['calendar']['event2'], None, u'public')
         result = upcoming_events(root, DummyRequest())
 
-        assert len(result['events']) == 2
-        assert result['events'][0].title == u'Event 1'
-        assert result['events'][0].start == now + timedelta(1)
+        events = result['events']
+        assert len(events) == 2
+        assert events[0].title == u'Event 1'
+        assert events[0].start == now - timedelta(1)
+        assert events[1].title == u'Event 2'
+        assert events[1].start == now + timedelta(1)
 
     def test_render(self):
         browser = self.login_testbrowser()

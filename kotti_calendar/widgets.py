@@ -1,4 +1,7 @@
 import datetime
+
+from sqlalchemy.sql.expression import or_
+
 from kotti import DBSession
 from kotti.security import has_permission
 from kotti.views.slots import assign_slot
@@ -9,8 +12,8 @@ from kotti_calendar.resources import Event
 def upcoming_events(context, request):
     now = datetime.datetime.now()
     settings = events_settings()
-    events = DBSession.query(Event).filter(Event.start > now)\
-                .order_by(Event.start).all()
+    when = or_(Event.start > now, Event.end > now)
+    events = DBSession.query(Event).filter(when).order_by(Event.start).all()
     events = [event for event in events if\
                 has_permission('view', event, request)]
     if len(events) > settings['events_count']:
