@@ -4,10 +4,9 @@ from kotti import DBSession
 from kotti.security import has_permission
 from kotti.views.edit import ContentSchema
 from kotti.views.edit import DocumentSchema
-from kotti.views.edit import generic_add
-from kotti.views.edit import generic_edit
+from kotti.views.form import AddFormView
+from kotti.views.form import EditFormView
 from kotti.views.view import view_node
-from kotti.views.util import ensure_view_selector
 from kotti.views.util import template_api
 from kotti_calendar import _
 from kotti_calendar.resources import Calendar
@@ -52,22 +51,24 @@ class EventSchema(DocumentSchema):
         title=_(u"All day"))
 
 
-@ensure_view_selector
-def edit_calendar(context, request):
-    return generic_edit(context, request, CalendarSchema())
+class CalendarAddForm(AddFormView):
+    schema_factory = CalendarSchema
+    add = Calendar
+    item_type = _(u"Calendar")
 
 
-def add_calendar(context, request):
-    return generic_add(context, request, CalendarSchema(), Calendar, u'calendar')
+class CalendarEditForm(EditFormView):
+    schema_factory = CalendarSchema
 
 
-@ensure_view_selector
-def edit_event(context, request):
-    return generic_edit(context, request, EventSchema())
+class EventAddForm(AddFormView):
+    schema_factory = EventSchema
+    add = Event
+    item_type = _(u"Event")
 
 
-def add_event(context, request):
-    return generic_add(context, request, EventSchema(), Event, u'event')
+class EventEditForm(EditFormView):
+    schema_factory = EventSchema
 
 
 def view_calendar(context, request):
@@ -123,7 +124,14 @@ def view_calendar(context, request):
 
 def includeme_edit(config):
     config.add_view(
-        edit_calendar,
+        CalendarAddForm,
+        name=Calendar.type_info.add_view,
+        permission='add',
+        renderer='kotti:templates/edit/node.pt',
+        )
+
+    config.add_view(
+        CalendarEditForm,
         context=Calendar,
         name='edit',
         permission='edit',
@@ -131,24 +139,17 @@ def includeme_edit(config):
         )
 
     config.add_view(
-        add_calendar,
-        name=Calendar.type_info.add_view,
+        EventAddForm,
+        name=Event.type_info.add_view,
         permission='add',
         renderer='kotti:templates/edit/node.pt',
         )
 
     config.add_view(
-        edit_event,
+        EventEditForm,
         context=Event,
         name='edit',
         permission='edit',
-        renderer='kotti:templates/edit/node.pt',
-        )
-
-    config.add_view(
-        add_event,
-        name=Event.type_info.add_view,
-        permission='add',
         renderer='kotti:templates/edit/node.pt',
         )
 
