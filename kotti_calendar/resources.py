@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from zope.interface import implements
 
-from kotti.resources import IDefaultWorkflow
+from kotti.interfaces import IDefaultWorkflow
 from kotti.resources import Content
 from kotti.resources import Document
 from kotti.sqla import JsonType
