@@ -1,5 +1,11 @@
 import colander
 import datetime
+
+from pyramid.compat import json
+from pyramid.i18n import get_locale_name
+from pyramid.url import resource_url
+from sqlalchemy import desc
+
 from kotti import DBSession
 from kotti.security import has_permission
 from kotti.views.edit import ContentSchema
@@ -8,15 +14,12 @@ from kotti.views.form import AddFormView
 from kotti.views.form import EditFormView
 from kotti.views.view import view_node
 from kotti.views.util import template_api
+
 from kotti_calendar import _
 from kotti_calendar.resources import Calendar
 from kotti_calendar.resources import Event
 from kotti_calendar.static import fullcalendar_locales
 from kotti_calendar.static import kotti_calendar_resources
-from pyramid.compat import json
-from pyramid.i18n import get_locale_name
-from pyramid.url import resource_url
-from sqlalchemy import desc
 
 
 class Feeds(colander.SequenceSchema):
