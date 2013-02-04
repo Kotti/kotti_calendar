@@ -52,7 +52,7 @@ setup(
         },
     entry_points={
         'fanstatic.libraries': [
-            'kotti_calendar = kotti_calendar.fanstatic:lib'
+            'kotti_calendar = kotti_calendar.fanstatic:library',
             ],
         },
-    )
+      )

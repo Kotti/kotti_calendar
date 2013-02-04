@@ -11,6 +11,8 @@ from zope.interface import implements
 
 from kotti_calendar import _
 
+from kotti_calendar import _
+
 
 class Calendar(Content):
     implements(IDefaultWorkflow)
