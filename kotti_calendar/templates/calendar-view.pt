@@ -12,6 +12,8 @@
       ${api.context.description}
     </p>
 
+    <div class="body" tal:content="structure context.body | None"></div>
+
     <div id="fullcalendar">
     </div>
 

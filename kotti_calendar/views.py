@@ -4,7 +4,6 @@ import colander
 import datetime
 from js.fullcalendar import locales as fullcalendar_locales
 from kotti.security import has_permission
-from kotti.views.edit import ContentSchema
 from kotti.views.edit import DocumentSchema
 from kotti.views.form import AddFormView
 from kotti.views.form import EditFormView
@@ -33,7 +32,7 @@ class Feeds(colander.SequenceSchema):
         )
 
 
-class CalendarSchema(ContentSchema):
+class CalendarSchema(DocumentSchema):
     """ Schema for calendars. """
 
     feeds = Feeds(

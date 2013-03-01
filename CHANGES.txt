@@ -4,6 +4,11 @@ History
 0.8 - Unreleased
 ----------------
 
+- Inherit Calendar from Document instead of Content.  This allows you to have
+  additional formatted (but completely optional) text on your calendar
+  instances. [disko]
+- Make Event implement IDefaultWorkflow. [disko]
+- Add migrations (also the one noted as missing in 0.7a1). [disko]
 - Use decorators for view_config. [disko]
 - Depend on Kotti >= 0.8b3dev to make patching of Colander unnecessary. [disko]
 - Add some docstrings. [disko]

@@ -42,5 +42,18 @@ value. It defaults to ``5``::
 
     kotti_calendar.upcoming_events_widget.events_count = 10
 
+Upgrading ``kotti_calendar`` in an existing project
+---------------------------------------------------
+
+If you want to upgrade ``kotti_calendar`` in a project where it is already
+installed (and calendars exist in that site), you might need to run a database
+migration::
+
+    kotti-migrate <your ini file> upgrade --scripts=kotti_calendar:alembic
+
+E.g.:
+
+    kotti-migrate development.ini upgrade --scripts=kotti_calendar:alembic
+
 .. _FullCalendar jQuery plugin: http://arshaw.com/fullcalendar/
 .. _Find out more about Kotti: http://pypi.python.org/pypi/Kotti
