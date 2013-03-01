@@ -1,20 +1,13 @@
+# -*- coding: utf-8 -*-
+
 from kotti.util import extract_from_settings
 from pyramid.i18n import TranslationStringFactory
 
 _ = TranslationStringFactory('kotti_calendar')
 
 
-def kotti_configure(settings):
-
-    settings['pyramid.includes'] += ' kotti_calendar kotti_calendar.views'
-    settings['kotti.available_types'] += ' kotti_calendar.resources.Calendar kotti_calendar.resources.Event'
-
-EVENTS_WIDGET_DEFAULTS = {
-    'events_count': '5',
-    }
-
-
 def events_settings(name=''):
+
     prefix = 'kotti_calendar.upcoming_events_widget.'
     if name:
         prefix += name + '.'  # pragma: no cover
@@ -27,23 +20,36 @@ def events_settings(name=''):
     return settings
 
 
+EVENTS_WIDGET_DEFAULTS = {
+    'events_count': '5',
+    }
+
+
+def kotti_configure(settings):
+    """ Add a line like this to you .ini file::
+
+            kotti.configurators =
+                kotti_calendar.kotti_configure
+
+        to enable the ``kotti_calendar`` add-on.
+
+    :param settings: Kotti configuration dictionary.
+    :type settings: dict
+    """
+
+    settings['pyramid.includes'] += ' kotti_calendar'
+    settings['kotti.available_types'] += ' kotti_calendar.resources.Calendar kotti_calendar.resources.Event'
+
+
 def includeme(config):
+    """ Don't add this to your ``pyramid_includes``, add the ``kotti_configure``
+        above to your ``kotti.configurators`` instead.
+
+    :param config: Pyramid configurator object.
+    :type config: :class:`pyramid.config.Configurator`
+    """
 
     config.add_translation_dirs('kotti_calendar:locale')
+    config.add_static_view('static-kotti_calendar', 'kotti_calendar:static')
 
-
-def _patch_colander():
-    # https://github.com/dnouri/colander/commit/6a09583a8b9bcae29d6f51ce05434becff379134
-    from colander import null
-    from colander import DateTime
-
-    save_datetime_serialize = DateTime.serialize
-
-    def datetime_serialize(self, node, appstruct):
-        if not appstruct:
-            return null
-        return save_datetime_serialize(self, node, appstruct)
-
-    DateTime.serialize = datetime_serialize
-
-_patch_colander()
+    config.scan(__name__)

@@ -1,6 +1,13 @@
 History
 =======
 
+0.8 - Unreleased
+----------------
+
+- Use decorators for view_config. [disko]
+- Depend on Kotti >= 0.8b3dev to make patching of Colander unnecessary. [disko]
+- Add some docstrings. [disko]
+
 0.7.1 - Unreleased
 ------------------
 

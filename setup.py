@@ -20,7 +20,7 @@ tests_require = [
 
 setup(
     name='kotti_calendar',
-    version='0.7.1dev',
+    version='0.8dev',
     description="Add a calendar to your Kotti site",
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
@@ -41,8 +41,10 @@ setup(
     zip_safe=False,
     install_requires=[
         'Babel',
+        ''
         'js.fullcalendar',
-        'Kotti>=0.7',
+        'Kotti>=0.8b3dev',  # makes the colander patch unnecessary
+                            # (amongst others)
         'lingua', ] + tests_require,
     message_extractors={
         '.': [

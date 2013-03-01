@@ -1,14 +1,19 @@
+# -*- coding: utf-8 -*-
+
 import datetime
 
 from kotti import DBSession
 from kotti.security import has_permission
 from kotti.views.slots import assign_slot
+from pyramid.view import view_config
 from sqlalchemy.sql.expression import or_
 
 from kotti_calendar import events_settings
 from kotti_calendar.resources import Event
 
 
+@view_config(name='upcoming-events',
+             renderer='kotti_calendar:templates/upcoming-events.pt')
 def upcoming_events(context, request):
     now = datetime.datetime.now()
     settings = events_settings()
@@ -22,8 +27,4 @@ def upcoming_events(context, request):
 
 
 def includeme_upcoming_events(config):
-    config.add_view(
-        upcoming_events,
-        name='upcoming-events',
-        renderer='kotti_calendar:templates/upcoming-events.pt')
     assign_slot('upcoming-events', 'right')

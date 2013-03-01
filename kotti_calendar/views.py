@@ -1,17 +1,19 @@
+# -*- coding: utf-8 -*-
+
 import colander
 import datetime
 from js.fullcalendar import locales as fullcalendar_locales
-from kotti import DBSession
 from kotti.security import has_permission
 from kotti.views.edit import ContentSchema
 from kotti.views.edit import DocumentSchema
 from kotti.views.form import AddFormView
 from kotti.views.form import EditFormView
 from kotti.views.util import template_api
-from kotti.views.view import view_node
 from pyramid.compat import json
 from pyramid.i18n import get_locale_name
 from pyramid.url import resource_url
+from pyramid.view import view_config
+from pyramid.view import view_defaults
 from sqlalchemy import desc
 from sqlalchemy.sql.expression import or_
 
@@ -22,6 +24,8 @@ from kotti_calendar.fanstatic import kotti_calendar_resources
 
 
 class Feeds(colander.SequenceSchema):
+    """ Schema for calendar feeds. """
+
     feed = colander.SchemaNode(
         colander.String(),
         title=_(u"Feed"),
@@ -30,6 +34,8 @@ class Feeds(colander.SequenceSchema):
 
 
 class CalendarSchema(ContentSchema):
+    """ Schema for calendars. """
+
     feeds = Feeds(
         missing=[],
         title=_(u"Calendar feeds"),
@@ -41,6 +47,8 @@ class CalendarSchema(ContentSchema):
 
 
 class EventSchema(DocumentSchema):
+    """ Schema for events. """
+
     start = colander.SchemaNode(
         colander.DateTime(default_tzinfo=None),
         title=_(u"Start"))
@@ -53,130 +61,182 @@ class EventSchema(DocumentSchema):
         title=_(u"All day"))
 
 
+@view_config(name=Calendar.type_info.add_view, permission='add',
+             renderer='kotti:templates/edit/node.pt')
 class CalendarAddForm(AddFormView):
+    """ Form to add a new calendar. """
+
     schema_factory = CalendarSchema
     add = Calendar
     item_type = _(u"Calendar")
 
 
+@view_config(name='edit', context=Calendar, permission='edit',
+             renderer='kotti:templates/edit/node.pt')
 class CalendarEditForm(EditFormView):
+    """ Form to edit existing calendars. """
+
     schema_factory = CalendarSchema
 
 
+@view_config(name=Event.type_info.add_view, permission='add',
+             renderer='kotti:templates/edit/node.pt')
 class EventAddForm(AddFormView):
+    """ Form to add a new event. """
+
     schema_factory = EventSchema
     add = Event
     item_type = _(u"Event")
 
 
+@view_config(name='edit', context=Event, permission='edit',
+             renderer='kotti:templates/edit/node.pt')
 class EventEditForm(EditFormView):
+    """ Form to edit existing events. """
+
     schema_factory = EventSchema
 
 
-def view_calendar(context, request):
+class BaseView(object):
+    """ Simple base view. """
 
-    kotti_calendar_resources.need()
-    locale_name = get_locale_name(request)
-    if locale_name in fullcalendar_locales:
-        fullcalendar_locales[locale_name].need()
-    else:  # pragma: no cover (safety belt only, should never happen)
-        fullcalendar_locales["en"].need()
+    def __init__(self, context, request):
+        """ Constructor.
 
-    session = DBSession()
-    now = datetime.datetime.now()
-    query = session.query(Event).filter(Event.parent_id == context.id)
-    future = or_(Event.start > now, Event.end > now)
-    upcoming = query.filter(future).order_by(Event.start).all()
-    past = query.filter(Event.start < now).order_by(desc(Event.start)).all()
-    upcoming = [event for event in upcoming if\
-                has_permission('view', event, request)]
-    past = [event for event in past if\
-                has_permission('view', event, request)]
+        :param context: Current context.
+        :type context: :class:`kotti.resources.Content` or subclass.
 
-    fmt = '%Y-%m-%d %H:%M:%S'
-    fullcalendar_events = []
-    for event in (upcoming + past):
-        json_event = {
-            'title': event.title,
-            'url': resource_url(event, request),
-            'start': event.start.strftime(fmt),
-            'allDay': event.all_day,
+        :param request: Current request.
+        :type request: :class:`pyramid.request.Request`
+        """
+
+        self.context = context
+        self.request = request
+
+
+@view_defaults(context=Calendar, permission='view')
+class CalendarViews(BaseView):
+    """ Views for calendars. """
+
+    def need(self):
+        """ Call ``need()`` on required Fanstatic resources. """
+
+        kotti_calendar_resources.need()
+        locale_name = get_locale_name(self.request)
+        if locale_name in fullcalendar_locales:
+            fullcalendar_locales[locale_name].need()
+        else:  # pragma: no cover (safety belt only, should never happen)
+            fullcalendar_locales["en"].need()
+
+    @property
+    def past_events(self):
+        """ List events in the past.
+
+        :result: List of events.
+        :rtype: list of :class:`kotti_calendar.resources.Event`
+        """
+
+        now = datetime.datetime.now()
+
+        events = Event.query \
+            .filter(Event.parent_id == self.context.id) \
+            .filter(Event.start < now)\
+            .order_by(desc(Event.start))\
+            .all()
+
+        return [event for event in events \
+            if has_permission('view', event, self.request)]
+
+    @property
+    def upcoming_events(self):
+        """ List events in the future.
+
+        :result: List of events.
+        :rtype: list of :class:`kotti_calendar.resources.Event`
+        """
+
+        now = datetime.datetime.now()
+
+        events = Event.query \
+            .filter(Event.parent_id == self.context.id) \
+            .filter(or_(Event.start > now, Event.end > now))\
+            .order_by(desc(Event.start))\
+            .all()
+
+        return [event for event in events \
+            if has_permission('view', event, self.request)]
+
+    @property
+    def fullcalendar_events(self):
+        """ Events to display in FullCalendar widget.
+
+        :result: JSON serializable list of events.
+        :rtype: list of dict
+        """
+
+        fmt = '%Y-%m-%d %H:%M:%S'
+        events = []
+
+        for event in (self.upcoming_events + self.past_events):
+            json_event = {
+                'title': event.title,
+                'url': resource_url(event, self.request),
+                'start': event.start.strftime(fmt),
+                'allDay': event.all_day,
+                }
+            if event.end:
+                json_event['end'] = event.end.strftime(fmt)
+            events.append(json_event)
+
+        return events
+
+    @property
+    def fullcalendar_options(self):
+        """ Options object suitable for FullCalendar initialization.
+
+        :result: JSON serializable FullCalendar options.
+        :rtype: dict
+        """
+
+        return {
+            'header': {
+                'left': 'prev,next today',
+                'center': 'title',
+                'right': 'month,agendaWeek,agendaDay'
+            },
+            'eventSources': self.context.feeds,
+            'weekends': self.context.weekends,
+            'events': self.fullcalendar_events,
             }
-        if event.end:
-            json_event['end'] = event.end.strftime(fmt)
-        fullcalendar_events.append(json_event)
 
-    fullcalendar_options = {
-        'header': {
-            'left': 'prev,next today',
-            'center': 'title',
-            'right': 'month,agendaWeek,agendaDay'
-        },
-        'eventSources': context.feeds,
-        'weekends': context.weekends,
-        'events': fullcalendar_events,
-        }
+    @view_config(name='view', renderer='templates/calendar-view.pt')
+    def view(self):
+        """ Default view for :class:`kotti_calendar.resources.Calendar`
 
-    return {
-        'api': template_api(context, request),
-        'upcoming_events': upcoming,
-        'past_events': past,
-        'fullcalendar_options': json.dumps(fullcalendar_options),
-        }
+        :result: Dictionary needed to render the template.
+        :rtype: dict
+        """
+
+        self.need()
+
+        return {
+            'api': template_api(self.context, self.request),
+            'upcoming_events': self.upcoming_events,
+            'past_events': self.past_events,
+            'fullcalendar_options': json.dumps(self.fullcalendar_options),
+            }
 
 
-def includeme_edit(config):
-    config.add_view(
-        CalendarAddForm,
-        name=Calendar.type_info.add_view,
-        permission='add',
-        renderer='kotti:templates/edit/node.pt',
-        )
+@view_defaults(context=Event, permission='view')
+class EventViews(BaseView):
+    """ Views for events. """
 
-    config.add_view(
-        CalendarEditForm,
-        context=Calendar,
-        name='edit',
-        permission='edit',
-        renderer='kotti:templates/edit/node.pt',
-        )
+    @view_config(name='view', renderer='templates/event-view.pt')
+    def view(self):
+        """ Default view for :class:`kotti_calendar.resources.Event`
 
-    config.add_view(
-        EventAddForm,
-        name=Event.type_info.add_view,
-        permission='add',
-        renderer='kotti:templates/edit/node.pt',
-        )
+        :result: Dictionary needed to render the template.
+        :rtype: dict
+        """
 
-    config.add_view(
-        EventEditForm,
-        context=Event,
-        name='edit',
-        permission='edit',
-        renderer='kotti:templates/edit/node.pt',
-        )
-
-
-def includeme_view(config):
-    config.add_view(
-        view_calendar,
-        context=Calendar,
-        name='view',
-        permission='view',
-        renderer='templates/calendar-view.pt',
-        )
-
-    config.add_view(
-        view_node,
-        context=Event,
-        name='view',
-        permission='view',
-        renderer='templates/event-view.pt',
-        )
-
-    config.add_static_view('static-kotti_calendar', 'kotti_calendar:static')
-
-
-def includeme(config):
-    includeme_edit(config)
-    includeme_view(config)
+        return {}

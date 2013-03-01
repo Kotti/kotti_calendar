@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from kotti.interfaces import IDefaultWorkflow
 from kotti.resources import Content
 from kotti.resources import Document
@@ -11,10 +13,10 @@ from zope.interface import implements
 
 from kotti_calendar import _
 
-from kotti_calendar import _
-
 
 class Calendar(Content):
+    """ A calendar is a container for events. """
+
     implements(IDefaultWorkflow)
 
     id = Column(Integer, ForeignKey('contents.id'), primary_key=True)
@@ -35,6 +37,8 @@ class Calendar(Content):
 
 
 class Event(Document):
+    """ Events are documents with start and optional end datetime. """
+
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     start = Column('start', DateTime(), nullable=False)
     end = Column('end', DateTime())
@@ -49,7 +53,9 @@ class Event(Document):
 
     def __init__(self, start=None, end=None, all_day=False,
                  in_navigation=False, **kwargs):
+
         super(Event, self).__init__(in_navigation=in_navigation, **kwargs)
+
         self.start = start
         self.end = end
         self.all_day = all_day
