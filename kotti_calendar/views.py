@@ -3,6 +3,7 @@
 import colander
 import datetime
 from js.fullcalendar import locales as fullcalendar_locales
+from kotti.resources import File
 from kotti.security import has_permission
 from kotti.views.edit import DocumentSchema
 from kotti.views.form import AddFormView
@@ -58,6 +59,12 @@ class EventSchema(DocumentSchema):
     all_day = colander.SchemaNode(
         colander.Boolean(),
         title=_(u"All day"))
+    link_to_file = colander.SchemaNode(
+        colander.Boolean(),
+        title=_(u"Link to File"),
+        description=_(u"When activated, the link in an associated calendar "
+                      u"view points to the first contained file of the event "
+                      u"(instead of to the calendar node)."))
 
 
 @view_config(name=Calendar.type_info.add_view, permission='add',
@@ -127,6 +134,27 @@ class CalendarViews(BaseView):
         else:  # pragma: no cover (safety belt only, should never happen)
             fullcalendar_locales["en"].need()
 
+    def event_url(self, event):
+        """ Return the URL for an event in the calendar view.
+
+        :param event: Event for which the URL is requested.
+        :type event: :class:`kotti_calendar.resources.Event`
+
+        :result: URL
+        :rtype: str
+        """
+
+        url = resource_url(event, self.request)
+
+        if event.link_to_file:
+            files = File.query.filter(File.parent_id == event.id)\
+                .order_by(File.position).all()
+            for f in files:
+                if has_permission('view', f, self.request):
+                    url = resource_url(f, self.request, '@@attachment-view')
+                    break
+        return url
+
     @property
     def past_events(self):
         """ List events in the past.
@@ -159,7 +187,7 @@ class CalendarViews(BaseView):
         events = Event.query \
             .filter(Event.parent_id == self.context.id) \
             .filter(or_(Event.start > now, Event.end > now))\
-            .order_by(desc(Event.start))\
+            .order_by(Event.start)\
             .all()
 
         return [event for event in events \
@@ -177,9 +205,10 @@ class CalendarViews(BaseView):
         events = []
 
         for event in (self.upcoming_events + self.past_events):
+
             json_event = {
                 'title': event.title,
-                'url': resource_url(event, self.request),
+                'url': self.event_url(event),
                 'start': event.start.strftime(fmt),
                 'allDay': event.all_day,
                 }
@@ -223,12 +252,25 @@ class CalendarViews(BaseView):
             'upcoming_events': self.upcoming_events,
             'past_events': self.past_events,
             'fullcalendar_options': json.dumps(self.fullcalendar_options),
+            'event_url': self.event_url,
             }
 
 
 @view_defaults(context=Event, permission='view')
 class EventViews(BaseView):
     """ Views for events. """
+
+    @property
+    def files(self):
+        """ Files that the event contains.
+        :result: List of files.
+        :rtype: list of :class:`kotti.resources.File`
+        """
+
+        files = File.query.filter(File.parent_id == self.context.id)\
+            .order_by(File.position).all()
+
+        return [f for f in files if has_permission('view', f, self.request)]
 
     @view_config(name='view', renderer='templates/event-view.pt')
     def view(self):
@@ -238,4 +280,6 @@ class EventViews(BaseView):
         :rtype: dict
         """
 
-        return {}
+        return {
+            'files': self.files,
+        }

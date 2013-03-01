@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from kotti.resources import File
 from kotti.util import extract_from_settings
 from pyramid.i18n import TranslationStringFactory
 
@@ -39,6 +40,7 @@ def kotti_configure(settings):
 
     settings['pyramid.includes'] += ' kotti_calendar'
     settings['kotti.available_types'] += ' kotti_calendar.resources.Calendar kotti_calendar.resources.Event'
+    File.type_info.addable_to.append('Event')
 
 
 def includeme(config):

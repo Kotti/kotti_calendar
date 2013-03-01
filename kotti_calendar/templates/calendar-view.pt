@@ -3,9 +3,11 @@
       xml:lang="en"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="api.macro('kotti:templates/view/master.pt')">
 
-  <article metal:fill-slot="content" class="calendar-view content" i18n:domain="kotti_calendar">
+  <article metal:fill-slot="content" class="calendar-view content"
+           i18n:domain="kotti_calendar">
 
     <h1>${api.context.title}</h1>
     <p class="description">
@@ -14,44 +16,49 @@
 
     <div class="body" tal:content="structure context.body | None"></div>
 
-    <div id="fullcalendar">
+    <div id="fullcalendar"></div>
+
+    <div tal:condition="upcoming_events">
+      <h2 i18n:translate="upcoming_events">Upcoming events</h2>
+      <ul>
+        <li tal:repeat="event upcoming_events">
+          <h3>
+            <a href="${event_url(event)}" title="${event.description}">
+              ${event.title}
+            </a>
+            <span tal:define="format event.all_day and api.format_date or
+                              api.format_datetime">
+              ${format(event.start)}
+              <span tal:condition="event.end">-
+              ${format(event.end)}
+              </span>
+            </span>
+          </h3>
+          <p>${event.description}</p>
+        </li>
+      </ul>
     </div>
 
-    <h2 tal:condition="upcoming_events" i18n:translate="upcoming_events">Upcoming events</h2>
-    <ul tal:condition="upcoming_events">
-      <li tal:repeat="event upcoming_events">
-        <h3>
-          <a href="${api.url(event)}" title="${event.description}">
-            ${event.title}
-          </a>
-          <span tal:define="format event.all_day and api.format_date or api.format_datetime">
-            ${format(event.start)}
-            <span tal:condition="event.end">-
-            ${format(event.end)}
+    <div tal:condition="past_events">
+      <h2 i18n:translate="past_events">Past events</h2>
+      <ul >
+        <li tal:repeat="event past_events">
+          <h3>
+            <a href="${event_url(event)}" title="${event.description}">
+              ${event.title}
+            </a>
+            <span tal:define="format event.all_day and api.format_date or
+                              api.format_datetime">
+              ${format(event.start)}
+              <span tal:condition="event.end">-
+                ${format(event.end)}
+              </span>
             </span>
-          </span>
-        </h3>
-        <p>${event.description}</p>
-      </li>
-    </ul>
-
-    <h2 tal:condition="past_events" i18n:translate="past_events">Past events</h2>
-    <ul tal:condition="past_events">
-      <li tal:repeat="event past_events">
-        <h3>
-          <a href="${api.url(event)}" title="${event.description}">
-            ${event.title}
-          </a>
-          <span tal:define="format event.all_day and api.format_date or api.format_datetime">
-            ${format(event.start)}
-            <span tal:condition="event.end">-
-            ${format(event.end)}
-            </span>
-          </span>
-        </h3>
-        <p>${event.description}</p>
-      </li>
-    </ul>
+          </h3>
+          <p>${event.description}</p>
+        </li>
+      </ul>
+    </div>
 
     <script type="text/javascript">
       $('#fullcalendar').fullCalendar($.extend(${fullcalendar_options}, localOptions));

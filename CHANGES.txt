@@ -4,6 +4,9 @@ History
 0.8 - Unreleased
 ----------------
 
+- Make files addable to Events and let the editor chose wheter to link to the
+  first contained file of an event from the calendar view (instead of the
+  default linking to the event node).
 - Inherit Calendar from Document instead of Content.  This allows you to have
   additional formatted (but completely optional) text on your calendar
   instances. [disko]

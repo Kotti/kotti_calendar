@@ -44,6 +44,7 @@ class Event(Document):
     start = Column('start', DateTime(), nullable=False)
     end = Column('end', DateTime())
     all_day = Column('all_day', Boolean())
+    link_to_file = Column('link_to_file', Boolean())
 
     type_info = Document.type_info.copy(
         name=u'Event',
@@ -52,7 +53,7 @@ class Event(Document):
         addable_to=[u'Calendar'],
         )
 
-    def __init__(self, start=None, end=None, all_day=False,
+    def __init__(self, start=None, end=None, all_day=False, link_to_file=False,
                  in_navigation=False, **kwargs):
 
         super(Event, self).__init__(in_navigation=in_navigation, **kwargs)
@@ -60,3 +61,4 @@ class Event(Document):
         self.start = start
         self.end = end
         self.all_day = all_day
+        self.link_to_file = link_to_file
