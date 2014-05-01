@@ -88,10 +88,10 @@ def view_calendar(context, request):
     future = or_(Event.start > now, Event.end > now)
     upcoming = query.filter(future).order_by(Event.start).all()
     past = query.filter(Event.start < now).order_by(desc(Event.start)).all()
-    upcoming = [event for event in upcoming if\
+    upcoming = [event for event in upcoming if
                 has_permission('view', event, request)]
-    past = [event for event in past if\
-                has_permission('view', event, request)]
+    past = [event for event in past if
+            has_permission('view', event, request)]
 
     fmt = '%Y-%m-%d %H:%M:%S'
     fullcalendar_events = []
