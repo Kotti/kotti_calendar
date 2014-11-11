@@ -171,8 +171,8 @@ class CalendarViews(BaseView):
             .order_by(desc(Event.start))\
             .all()
 
-        return [event for event in events \
-            if has_permission('view', event, self.request)]
+        return [event for event in events
+                if has_permission('view', event, self.request)]
 
     @property
     def upcoming_events(self):
@@ -190,8 +190,8 @@ class CalendarViews(BaseView):
             .order_by(Event.start)\
             .all()
 
-        return [event for event in events \
-            if has_permission('view', event, self.request)]
+        return [event for event in events
+                if has_permission('view', event, self.request)]
 
     @property
     def fullcalendar_events(self):
@@ -235,7 +235,7 @@ class CalendarViews(BaseView):
             'eventSources': self.context.feeds,
             'weekends': self.context.weekends,
             'events': self.fullcalendar_events,
-            }
+        }
 
     @view_config(name='view', renderer='templates/calendar-view.pt')
     def view(self):
