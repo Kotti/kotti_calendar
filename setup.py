@@ -10,13 +10,18 @@ try:
 except IOError:
     README = CHANGES = ''
 
+install_requires = [
+    'js.fullcalendar',
+    'Kotti>=0.10b1',
+]
+
 tests_require = [
     'pytest-cov',
     'pytest',
     'webtest',
     'wsgi_intercept',
     'zope.testbrowser',
-    ]
+]
 
 setup(
     name='kotti_calendar',
@@ -39,22 +44,16 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'Babel',
-        ''
-        'js.fullcalendar',
-        'Kotti>=0.8b3dev',  # makes the colander patch unnecessary
-                            # (amongst others)
-        'lingua', ] + tests_require,
+    install_requires=install_requires + tests_require,
     message_extractors={
         '.': [
             ('**.py', 'lingua_python', None),
             ('**.pt', 'lingua_xml', None),
-            ]
-        },
+        ]
+    },
     entry_points={
         'fanstatic.libraries': [
             'kotti_calendar = kotti_calendar.fanstatic:library',
-            ],
-        },
-      )
+        ],
+    },
+)
