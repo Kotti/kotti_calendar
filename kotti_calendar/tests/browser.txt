@@ -13,7 +13,7 @@ Setup and Login
   >>> browser.open(testing.BASE_URL + '/edit')
   >>> "Log in" in browser.contents
   True
-  >>> ctrl("Username or email").value = "admin"
+  >>> ctrl("Username or email", index=0).value = "admin"
   >>> ctrl("Password").value = "secret"
   >>> ctrl(name="submit").click()
   >>> "Welcome, Administrator" in browser.contents
@@ -26,7 +26,7 @@ Add a calendar
   >>> browser.getLink("Calendar").click()
   >>> ctrl("Title").value = "My Calendar"
   >>> ctrl("save").click()
-  >>> "Successfully added item" in browser.contents
+  >>> "Item was added" in browser.contents
   True
   >>> browser.url == testing.BASE_URL + '/my-calendar/'
   True
@@ -43,7 +43,7 @@ Add events
   >>> ctrl("Start").value = "2010-12-13 12:00:00"
   >>> ctrl("End").value = "2010-12-13 13:00:00"
   >>> ctrl("save").click()
-  >>> "Successfully added item" in browser.contents
+  >>> "Item was added" in browser.contents
   True
 
   >>> browser.open(testing.BASE_URL + '/my-calendar/')
@@ -54,7 +54,7 @@ Add events
   >>> ctrl("Start").value = "2010-11-12 00:00:00"
   >>> ctrl("All day").click()
   >>> ctrl("save").click()
-  >>> "Successfully added item" in browser.contents
+  >>> "Item was added" in browser.contents
   True
 
 View calendar and event
