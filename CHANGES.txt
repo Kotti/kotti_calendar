@@ -6,6 +6,11 @@ History
 
 - No changes yet.
 
+0.8.1 - 2014-11-12
+------------------
+
+- Fix a bug in event view template markup.
+
 0.8 - 2014-11-12
 ----------------
 
