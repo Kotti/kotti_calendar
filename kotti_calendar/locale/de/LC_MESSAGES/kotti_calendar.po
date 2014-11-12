@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kotti_calendar 0.6.1dev\n"
 "Report-Msgid-Bugs-To: disko@binary-punks.com\n"
-"POT-Creation-Date: 2012-08-23 10:54+0200\n"
+"POT-Creation-Date: 2014-11-12 14:49+0100\n"
 "PO-Revision-Date: 2012-06-21 16:13+0200\n"
 "Last-Translator: Andreas Kaiser <disko@binary-punks.com>\n"
 "Language-Team: de <LL@li.org>\n"
@@ -18,64 +18,83 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: kotti_calendar/resources.py:19
+#: kotti_calendar/resources.py:27 kotti_calendar/views.py:77
 msgid "Calendar"
 msgstr "Kalender"
 
-#: kotti_calendar/resources.py:38
+#: kotti_calendar/resources.py:51 kotti_calendar/views.py:95
 msgid "Event"
 msgstr "Termin"
 
-#: kotti_calendar/views.py:25
+#: kotti_calendar/views.py:31
 msgid "Feed"
 msgstr "Feed"
 
-#: kotti_calendar/views.py:33
+#: kotti_calendar/views.py:41
 msgid "Calendar feeds"
 msgstr "Kalender Feeds"
 
-#: kotti_calendar/views.py:34
+#: kotti_calendar/views.py:42
 msgid "Paste Google calendar XML feeds here"
 msgstr "Fügen Sie hier Ihre Google Kalender XML Feeds ein"
 
-#: kotti_calendar/views.py:38
+#: kotti_calendar/views.py:46
 msgid "Weekends"
 msgstr "Wochenenden"
 
-#: kotti_calendar/views.py:44
+#: kotti_calendar/views.py:54
 msgid "Start"
 msgstr "Beginn"
 
-#: kotti_calendar/views.py:47
+#: kotti_calendar/views.py:57
 msgid "End"
 msgstr "Ende"
 
-#. Default: All Day
-#: kotti_calendar/views.py:51 kotti_calendar/templates/event-view.pt:25
+#. Default: All day
+#: kotti_calendar/views.py:61 kotti_calendar/templates/event-view.pt:39
 msgid "All day"
 msgstr "Ganztägig"
 
+#: kotti_calendar/views.py:64
+msgid "Link to File"
+msgstr ""
+
+#: kotti_calendar/views.py:65
+msgid ""
+"When activated, the link in an associated calendar view points to the "
+"first contained file of the event (instead of to the calendar node)."
+msgstr ""
+
 #. Default: Upcoming events
-#: kotti_calendar/templates/calendar-view.pt:18
+#: kotti_calendar/templates/calendar-view.pt:22
 msgid "upcoming_events"
 msgstr "Zukünftige Termine"
 
 #. Default: Past events
-#: kotti_calendar/templates/calendar-view.pt:36
+#: kotti_calendar/templates/calendar-view.pt:41
 msgid "past_events"
 msgstr "Vergangene Termine"
 
+#: kotti_calendar/templates/event-view.pt:22
+msgid "Details"
+msgstr ""
+
 #. Default: Start
-#: kotti_calendar/templates/event-view.pt:19
+#: kotti_calendar/templates/event-view.pt:29
 msgid "event_start"
 msgstr "Beginn"
 
 #. Default: End
-#: kotti_calendar/templates/event-view.pt:22
+#: kotti_calendar/templates/event-view.pt:35
 msgid "event_end"
 msgstr "Ende"
 
-#: kotti_calendar/templates/upcoming-events.pt:6
+#. Default: Downloads
+#: kotti_calendar/templates/event-view.pt:45
+msgid "Downloads"
+msgstr ""
+
+#: kotti_calendar/templates/upcoming-events.pt:4
 msgid "Upcoming events"
 msgstr "Termine"
 
