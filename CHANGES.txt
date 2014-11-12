@@ -1,6 +1,19 @@
 History
 =======
 
+0.8 - 2014-11-12
+----------------
+
+- Migrate to Bootstrap 3.
+  This requires ``Kotti>=0.10b1`` and is a **backward incompatible change if you have customized any template**!
+- Make files addable to Events and let the editor chose wheter to link to the first contained file of an event from the calendar view (instead of the default linking to the event node).
+- Inherit Calendar from Document instead of Content.
+  This allows you to have additional formatted (but completely optional) text on your calendar instances. [disko]
+- Make Event implement IDefaultWorkflow. [disko]
+- Add migrations (also the one noted as missing in 0.7a1). [disko]
+- Use decorators for view_config. [disko]
+- Add some docstrings. [disko]
+
 0.7.1 - Unreleased
 ------------------
 

@@ -10,17 +10,23 @@ try:
 except IOError:
     README = CHANGES = ''
 
+install_requires = [
+    'js.fullcalendar',
+    'Kotti>=0.10b1',
+]
+
 tests_require = [
     'pytest-cov',
     'pytest',
     'webtest',
     'wsgi_intercept',
     'zope.testbrowser',
-    ]
+    'Webtest',
+]
 
 setup(
     name='kotti_calendar',
-    version='0.7.1dev',
+    version='0.8',
     description="Add a calendar to your Kotti site",
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
@@ -39,20 +45,16 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'Babel',
-        'js.fullcalendar',
-        'Kotti>=0.7',
-        'lingua', ] + tests_require,
+    install_requires=install_requires + tests_require,
     message_extractors={
         '.': [
             ('**.py', 'lingua_python', None),
             ('**.pt', 'lingua_xml', None),
-            ]
-        },
+        ]
+    },
     entry_points={
         'fanstatic.libraries': [
             'kotti_calendar = kotti_calendar.fanstatic:library',
-            ],
-        },
-      )
+        ],
+    },
+)

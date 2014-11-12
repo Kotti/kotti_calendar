@@ -13,7 +13,7 @@ Setup and Login
   >>> browser.open(testing.BASE_URL + '/edit')
   >>> "Log in" in browser.contents
   True
-  >>> ctrl("Username or email").value = "admin"
+  >>> ctrl("Username or email", index=0).value = "admin"
   >>> ctrl("Password").value = "secret"
   >>> ctrl(name="submit").click()
   >>> "Welcome, Administrator" in browser.contents
@@ -26,7 +26,7 @@ Add a calendar
   >>> browser.getLink("Calendar").click()
   >>> ctrl("Title").value = "My Calendar"
   >>> ctrl("save").click()
-  >>> "Successfully added item" in browser.contents
+  >>> "Item was added" in browser.contents
   True
   >>> browser.url == testing.BASE_URL + '/my-calendar/'
   True
@@ -34,28 +34,16 @@ Add a calendar
 Add events
 ----------
 
-  >>> browser.open(testing.BASE_URL + '/my-calendar/')
-  >>> browser.getLink("Add").click()
-  >>> browser.getLink("Event").click()
+We still have to figure out a way to add or edit events within browser tests (or webtest) due to the way the widget depends on the strange behavior of the pickadate Javascript library.
+Let's instead add them with Python for now.
 
-  >>> ctrl("Title").value = "Meet with Frank"
-  >>> ctrl("Description").value = "Discuss the latest"
-  >>> ctrl("Start").value = "2010-12-13 12:00:00"
-  >>> ctrl("End").value = "2010-12-13 13:00:00"
-  >>> ctrl("save").click()
-  >>> "Successfully added item" in browser.contents
-  True
+  >>> from datetime import datetime
+  >>> from kotti.resources import get_root
+  >>> from kotti_calendar.resources import Event
 
-  >>> browser.open(testing.BASE_URL + '/my-calendar/')
-  >>> browser.getLink("Add").click()
-  >>> browser.getLink("Event").click()
-
-  >>> ctrl("Title").value = "Day off"
-  >>> ctrl("Start").value = "2010-11-12 00:00:00"
-  >>> ctrl("All day").click()
-  >>> ctrl("save").click()
-  >>> "Successfully added item" in browser.contents
-  True
+  >>> calendar = get_root()['my-calendar']
+  >>> calendar['meet-with-frank'] = Event(title=u"Meet with Frank", description=u"Discuss the latest", start=datetime(2010, 12, 13, 12), end=datetime(2010, 12, 13, 13))
+  >>> calendar['day-off'] = Event(title=u"Day off", start=datetime(2010, 11, 12), all_day=True)
 
 View calendar and event
 -----------------------
@@ -81,9 +69,10 @@ Edit calendar and events
   >>> "My personal Calendar" in browser.contents
   True
 
-  >>> browser.open(testing.BASE_URL + '/my-calendar/day-off/edit')
-  >>> ctrl("Description").value = "all day long"
-  >>> ctrl("save").click()
+See above...
+
+  >>> calendar['day-off'].description = u"all day long"
+  >>> browser.open(testing.BASE_URL + '/my-calendar/day-off/')
   >>> "all day long" in browser.contents
   True
 

@@ -1,23 +1,24 @@
-<div tal:condition="events"
-     id="upcoming-events"
-     i18n:domain="kotti_calendar">
-  <h2 i18n:translate="">Upcoming events</h2>
-  <dl>
-    <tal:repeat tal:repeat="event events">
-      <dt class="upcoming-event">
-          <a href="${api.url(event)}" title="${event.description}">
-            ${event.title}
-          </a>
+<div class="panel panel-default panel-events"
+     tal:condition="events" i18n:domain="kotti_calendar">
+  <div class="panel-heading">
+    <h3 class="panel-title" i18n:translate="">Upcoming events</h3>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" tal:repeat="event events">
+      <dt>
+        <a href="${api.url(event)}" title="${event.description}">
+          ${event.title}
+        </a>
       </dt>
       <dd>
-          <span tal:define="format event.all_day and api.format_date or api.format_datetime">
-            ${format(event.start)}
-            <span tal:condition="event.end">-
-            ${format(event.end)}
-            </span>
+        <span tal:define="format event.all_day and api.format_date or api.format_datetime">
+          ${format(event.start)}
+          <span tal:condition="event.end">-
+          ${format(event.end)}
           </span>
-          <p>${event.description}</p>
+        </span>
+        <p>${event.description}</p>
       </dd>
-    </tal:repeat>
-  </dl>
+    </li>
+  </ul>
 </div>

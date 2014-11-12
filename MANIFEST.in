@@ -1,0 +1,1 @@
+recursive-include kotti_calendar *.pt *.css *.mo *.po *.pot *.txt
