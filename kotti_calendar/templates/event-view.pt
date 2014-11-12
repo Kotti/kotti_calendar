@@ -10,33 +10,48 @@
            i18n:domain="kotti_calendar">
     <h1>${context.title}</h1>
     <div class="row">
-      <div class="span9">
-        <p class="description">
+      <div class="col-md-9">
+        <p class="lead">
           ${context.description}
         </p>
         <div class="body" tal:content="structure context.body"></div>
       </div>
-      <div class="span3">
-        <ul class="nav nav-list"
-            tal:define="format context.all_day and
-                        api.format_date or api.format_datetime">
-          <li class="nav-header" i18n:translate="event_start">Start</li>
-          <li>${format(context.start)}</li>
-
-          <li class="nav-header" tal:condition="api.context.end"
-              i18n:translate="event_end">End</li>
-          <li tal:condition="api.context.end">${format(context.end)}</li>
-
-          <li class="nav-header" tal:condition="context.all_day"
-              i18n:translate="All day">All Day</li>
-
-          <li class="nav-header" tal:condition="files" i18n:translate="Downloads">Downloads</li>
-          <li tal:repeat="file files">
-            <a href="${request.resource_url(file)}/@@attachment-view">
-              ${file.title}
-            </a>
-          </li>
-        </ul>
+      <div class="col-md-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title" i18n:translate="">Details</h3>
+          </div>
+          <ul class="list-group"
+              tal:define="format context.all_day and
+                          api.format_date or api.format_datetime">
+            <li class="list-group-item">
+              <dl>
+                <dt i18n:translate="event_start">Start</dt>
+                <dd>${format(context.start)}</dd>
+              </dl>
+            </li>
+            <li class="list-group-item" tal:condition="context.end">
+              <dl>
+                <dt i18n:translate="event_end">End</dt>
+                <dd>${format(context.end)}</dd>
+              </dl>
+            </li>
+            <li class="list-group-item" tal:condition="context.all_day"
+                i18n:translate="All day">
+              All day
+            </li>
+            <li class="list-group-items" tal:condition="files">
+              <dl>
+                <dt i18n:translate="Downloads">Downloads</dt>
+                <dd tal:repeat="file files">
+                  <a href="${request.resource_url(file)}/@@attachment-view">
+                    ${file.title}
+                  </a>
+                </dd>
+              </dl>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </article>
