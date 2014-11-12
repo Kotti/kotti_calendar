@@ -19,8 +19,8 @@ def upcoming_events(context, request):
     settings = events_settings()
     future = or_(Event.start > now, Event.end > now)
     events = DBSession.query(Event).filter(future).order_by(Event.start).all()
-    events = [event for event in events if\
-                has_permission('view', event, request)]
+    events = [event for event in events if
+              has_permission('view', event, request)]
     if len(events) > settings['events_count']:
         events = events[:settings['events_count']]
     return {'events': events}
