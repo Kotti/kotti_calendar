@@ -21,6 +21,7 @@ tests_require = [
     'webtest',
     'wsgi_intercept',
     'zope.testbrowser',
+    'Webtest',
 ]
 
 setup(
