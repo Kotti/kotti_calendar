@@ -1,13 +1,8 @@
 History
 =======
 
-0.9 - unreleased
-----------------
-
-- No changes yet.
-
-0.8.2
------
+0.8.2 - 2015-01-07
+------------------
 
 - Require ``js.fullcalendar>=2.2.5``.
 - Use the ``lang_all_js`` resource.
