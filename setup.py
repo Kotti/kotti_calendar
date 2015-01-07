@@ -11,7 +11,7 @@ except IOError:
     README = CHANGES = ''
 
 install_requires = [
-    'js.fullcalendar',
+    'js.fullcalendar>=2.2.5',
     'Kotti>=0.10b1',
 ]
 
@@ -26,7 +26,7 @@ tests_require = [
 
 setup(
     name='kotti_calendar',
-    version='0.8.1',
+    version='0.8.2',
     description="Add a calendar to your Kotti site",
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
