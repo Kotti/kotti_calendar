@@ -2,7 +2,7 @@
 
 import colander
 import datetime
-from js.fullcalendar import locales as fullcalendar_locales
+from js.fullcalendar import lang_all_js
 from kotti.resources import File
 from kotti.security import has_permission
 from kotti.views.edit import DocumentSchema
@@ -124,16 +124,6 @@ class BaseView(object):
 class CalendarViews(BaseView):
     """ Views for calendars. """
 
-    def need(self):
-        """ Call ``need()`` on required Fanstatic resources. """
-
-        kotti_calendar_resources.need()
-        locale_name = get_locale_name(self.request)
-        if locale_name in fullcalendar_locales:
-            fullcalendar_locales[locale_name].need()
-        else:  # pragma: no cover (safety belt only, should never happen)
-            fullcalendar_locales["en"].need()
-
     def event_url(self, event):
         """ Return the URL for an event in the calendar view.
 
@@ -226,6 +216,8 @@ class CalendarViews(BaseView):
         :rtype: dict
         """
 
+        lang = get_locale_name(self.request) or 'en'
+
         return {
             'header': {
                 'left': 'prev,next today',
@@ -235,6 +227,7 @@ class CalendarViews(BaseView):
             'eventSources': self.context.feeds,
             'weekends': self.context.weekends,
             'events': self.fullcalendar_events,
+            'lang': lang,
         }
 
     @view_config(name='view', renderer='templates/calendar-view.pt')
@@ -245,7 +238,8 @@ class CalendarViews(BaseView):
         :rtype: dict
         """
 
-        self.need()
+        kotti_calendar_resources.need()
+        lang_all_js.need()
 
         return {
             'api': template_api(self.context, self.request),

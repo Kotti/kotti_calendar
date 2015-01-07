@@ -11,7 +11,7 @@ except IOError:
     README = CHANGES = ''
 
 install_requires = [
-    'js.fullcalendar',
+    'js.fullcalendar>=2.2.5',
     'Kotti>=0.10b1',
 ]
 
